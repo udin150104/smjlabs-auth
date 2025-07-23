@@ -43,14 +43,12 @@ composer update udin150104/smjlabs-auth
 Publikasikan file konfigurasi dan resource (opsional):
 Anda bisa mempublikasikan resource tertentu menggunakan tag berikut:
 ```bash
-// config/smjlabsauth.php
 php artisan vendor:publish --tag=smjlabs-auth-config
-// resources/views/vendor/smjlabsauth
+// config/smjlabsauth.php
 php artisan vendor:publish --tag=smjlabs-auth-views
+// resources/views/vendor/smjlabsauth
+php artisan vendor:publish --tag=smjlabs-auth-seeders
 // database/seeders/SampleUsersSeeder.php
-php artisan vendor:publish --tag=smjlabs-auth-seeders 
-// 
-php artisan vendor:publish --tag=smjlabs-auth-routes
 ```
 
 ### Blade directive

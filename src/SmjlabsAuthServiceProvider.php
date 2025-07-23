@@ -25,6 +25,12 @@ class SmjlabsAuthServiceProvider extends ServiceProvider
     // $this->publishes([ __DIR__ . '/../resources/js' => resource_path('vendor/smjlabs') ], 'smjlabs-auth-js');
     $this->publishes([ __DIR__ . '/../config/smjlabsauth.php' => config_path('smjlabsauth.php') ], 'smjlabs-auth-config');
     // $this->publishes([ __DIR__.'/../resources/lang' => resource_path('lang/vendor/smjlabs') ], 'smjlabs-auth-lang');
+
+    // routes/smjlabs-auth.php
+    // use on root web.php :
+    // require base_path('routes/smjlabs-auth.php');
+    // php artisan vendor:publish --tag=smjlabs-auth-routes
+
     $this->publishes([ __DIR__.'/../routes/web.php' => base_path('routes/smjlabs-auth.php') ], 'smjlabs-auth-routes');
     // blade directive
     Blade::directive('smjlabs_auth_assets', function ($path) {
