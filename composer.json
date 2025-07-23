@@ -1,5 +1,5 @@
 {
-    "name": "smjlabs/auth",
+    "name": "udin150104/smjlabs-auth",
     "description": "my simple auth installer packages for fast workspace",
     "autoload": {
         "psr-4": {
