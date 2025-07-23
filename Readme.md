@@ -58,10 +58,11 @@ php artisan vendor:publish --tag=smjlabs-auth-seeders
 @permcan($menulabel,$access)
 ```
 
-### 📜 Contributors
+### 👥 Contributors
 
-Thanks to the following people who have contributed to this project:
+| Username | Role |
+|----------|------|
+| [@udin150104](https://github.com/udin150104) | Creator, Maintainer & Contributor *(Main Account)* |
+| [@syahrudinsmj](https://github.com/syahrudinsmj) | Creator, Maintainer & Contributor *(Secondary Account)* |
 
-- [@udin150104](https://github.com/udin150104) – Creator, Maintainer & Contributor (main account)
-- [@syahrudinsmj](https://github.com/syahrudinsmj) – Creator, Maintainer & Contributor (second account)
 
