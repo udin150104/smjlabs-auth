@@ -20,7 +20,7 @@ class SmjlabsAuthServiceProvider extends ServiceProvider
     $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
     // publishes
     $this->publishes([ __DIR__ . '/Database/Seeders/SampleUsersSeeder.php' => database_path('seeders/SampleUsersSeeder.php') ], 'smjlabs-auth-seeders');
-    $this->publishes([ __DIR__ . '/../resources/views' => resource_path('views/vendor/smjlabs') ], 'smjlabs-auth-views');
+    $this->publishes([ __DIR__ . '/../resources/views' => resource_path('views/vendor/smjlabsauth') ], 'smjlabs-auth-views');
     // $this->publishes([ __DIR__ . '/../resources/css' => resource_path('vendor/smjlabs') ], 'smjlabs-auth-css');
     // $this->publishes([ __DIR__ . '/../resources/js' => resource_path('vendor/smjlabs') ], 'smjlabs-auth-js');
     $this->publishes([ __DIR__ . '/../config/smjlabsauth.php' => config_path('smjlabsauth.php') ], 'smjlabs-auth-config');
