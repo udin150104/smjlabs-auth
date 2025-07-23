@@ -90,3 +90,7 @@ Untuk mengecek izin akses menggunakan `@permcan`:
 Lisensi: **UNLICENSED**
 
 Penggunaan hanya untuk kebutuhan internal/personal.
+
+### 🧾 Changelog
+
+Lihat changelog lengkap di [CHANGELOG.md](./CHANGELOG.md)
