@@ -17,7 +17,7 @@ class IsGuest
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            return redirect()->to(config('smjlabs-auth-config.redirect_after_login'));
+            return redirect()->to(config('smjlabsauth.redirect_after_login'));
         }
         return $next($request);
     }

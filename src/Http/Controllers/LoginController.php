@@ -15,7 +15,7 @@ class LoginController extends Controller
    */
   public function index()
   {
-    return view('smjlabs-auth-views::access.index');
+    return view('smjlabsauth::access.index');
   }
   /**
    * Summary of store
@@ -47,7 +47,7 @@ class LoginController extends Controller
     ], $request->filled('remember'))) {
 
       $request->session()->regenerate();
-      return redirect()->intended(config('smjlabs-auth-config.redirect_after_login'));
+      return redirect()->intended(config('smjlabsauth.redirect_after_login'));
     }
     return redirect()->route('acc.login.index')->with('error', 'Inisial akses atau kata sandi salah. silahkan coba lagi')->withInput();
   }
@@ -61,6 +61,6 @@ class LoginController extends Controller
     request()->session()->invalidate();
     request()->session()->regenerateToken();
 
-    return redirect(config('smjlabs-auth-config.login_route'));
+    return redirect(config('smjlabsauth.login_route'));
   }
 }

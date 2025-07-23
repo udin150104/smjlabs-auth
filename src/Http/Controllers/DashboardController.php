@@ -9,6 +9,6 @@ class DashboardController extends Controller
   public function index()
   {
     $title = 'Dashboard';
-    return view('smjlabs-auth-views::dasboard.index',compact('title'));
+    return view('smjlabsauth::dasboard.index',compact('title'));
   }
 }

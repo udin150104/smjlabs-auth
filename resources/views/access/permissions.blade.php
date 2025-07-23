@@ -1,4 +1,4 @@
-@extends('smjlabs-auth-views::layouts.panel-administrator')
+@extends('smjlabsauth::layouts.panel-administrator')
 
 @section('title')
     Halaman {{ $title }}
@@ -13,10 +13,10 @@
 @endphp
 
 @section('content')
-    @include('smjlabs-auth-views::crud.breadcrumb')
+    @include('smjlabsauth::crud.breadcrumb')
     <h6 class=" display-6 mb-3 text-muted ">{{ $title }}</h6>
 
-    @include('smjlabs-auth-views::alert')
+    @include('smjlabsauth::alert')
 
     <div class="card">
         <div class="card-header d-flex bg-light align-items-center gap-2">

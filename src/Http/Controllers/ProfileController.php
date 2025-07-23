@@ -13,7 +13,7 @@ class ProfileController extends Controller
   public function index()
   {
     $title = 'Profil';
-    return view('smjlabs-auth-views::profile.index',compact('title'));
+    return view('smjlabsauth::profile.index',compact('title'));
   }
 
   public function update(UpdateProfileRequest $request, User $profile)

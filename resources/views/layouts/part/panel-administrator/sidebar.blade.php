@@ -9,7 +9,7 @@
     </div>
     <ul class="nav flex-column mt-1">
         @php
-            $menu = config('smjlabs-auth-config.menus');
+            $menu = config('smjlabsauth.menus');
         @endphp
         @foreach ($menu as $item)
             <li class="nav-item">

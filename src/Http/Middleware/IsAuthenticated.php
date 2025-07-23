@@ -17,7 +17,7 @@ class IsAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->to(config('smjlabs-auth-config.login_route'));
+            return redirect()->to(config('smjlabsauth.login_route'));
         }
 
         return $next($request);

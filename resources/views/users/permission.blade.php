@@ -1,4 +1,4 @@
-@extends('smjlabs-auth-views::layouts.panel-administrator')
+@extends('smjlabsauth::layouts.panel-administrator')
 
 @section('title')
     Halaman {{ $title }}
@@ -8,8 +8,8 @@
 @section('namespace'){{ Str::slug('Halaman '.$title) }}@endsection
 
 @section('content')
-    @include('smjlabs-auth-views::crud.breadcrumb')
-    @include('smjlabs-auth-views::alert')
+    @include('smjlabsauth::crud.breadcrumb')
+    @include('smjlabsauth::alert')
 
     <div class="card">
         <div class="card-header d-flex bg-light align-items-center gap-2">

@@ -1,4 +1,4 @@
-@extends('smjlabs-auth-views::layouts.panel-administrator')
+@extends('smjlabsauth::layouts.panel-administrator')
 
 @section('title')
     Halaman {{ $title }}
@@ -12,7 +12,7 @@
 @endphp
 
 @section('content')
-    @include('smjlabs-auth-views::crud.breadcrumb')
+    @include('smjlabsauth::crud.breadcrumb')
 
     <div class="card">
         <div class="card-header d-flex bg-light align-items-center gap-2">
@@ -37,7 +37,7 @@
 
         <div class="card-body">
 
-            @include('smjlabs-auth-views::alert')
+            @include('smjlabsauth::alert')
 
             @php
                 $currentRoute = request()->route()->getName();

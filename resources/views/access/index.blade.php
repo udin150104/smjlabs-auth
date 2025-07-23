@@ -1,4 +1,4 @@
-@extends('smjlabs-auth-views::layouts.login')
+@extends('smjlabsauth::layouts.login')
 @php
     $includejs = 'login';
 @endphp
@@ -16,7 +16,7 @@
                 </p>
             </div>
 
-            @include('smjlabs-auth-views::alert')
+            @include('smjlabsauth::alert')
 
             <form method="POST" action="{{ route('acc.login.store') }}">
                 @csrf
@@ -38,9 +38,6 @@
                 <div class="mb-3">
                     <label for="password" class="form-label d-flex justify-content-between small text-muted">
                         <span>Kata Sandi</span>
-                        {{-- @if (config('smjlabs-auth-config.forgot-password'))
-                            <a href="#" class="text-decoration-none fw-light">Lupa Kata Sandi?</a>
-                        @endif --}}
                     </label>
                     <div class="input-group ">
                         <span class="input-group-text bg-white border-end-0 d-flex align-items-center">
@@ -61,9 +58,6 @@
                         <label class="form-check-label small" for="remember">Ingat Saya</label>
                     </div>
                     <div class="mb-2">
-                        {{-- @if (config('smjlabs-auth-config.register'))
-                            <small>Belum punya akun? <a href="#">Daftar</a></small>
-                        @endif --}}
                     </div>
                     <div class="mb-2">
                         <button type="button" id="toggle-password"

@@ -29,7 +29,7 @@ class IzinAksesController extends Controller
       (object)['url' => '#', 'label' => 'Konfigurasi'],
       (object)['url' => '#', 'label' => 'Izin Akses']
     ];
-    $menus = config('smjlabs-auth-config.menus');
+    $menus = config('smjlabsauth.menus');
     $accessLists = collect($menus)->flatMap(function ($menu) {
       // Ambil access-lists utama
       $lists = $menu['access-lists'] ?? [];
@@ -45,7 +45,7 @@ class IzinAksesController extends Controller
       return $lists;
     })->unique()->values();
     $role = Role::get();
-    return view('smjlabs-auth-views::access.permissions', compact('title', 'breadcrumb', 'accessLists', 'accessLists', 'menus', 'role'));
+    return view('smjlabsauth::access.permissions', compact('title', 'breadcrumb', 'accessLists', 'accessLists', 'menus', 'role'));
   }
 
   public function store(Request $request)

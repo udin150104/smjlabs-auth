@@ -1,4 +1,4 @@
-@extends('smjlabs-auth-views::layouts.panel-administrator')
+@extends('smjlabsauth::layouts.panel-administrator')
 
 @section('title')
   Halaman {{$title}}

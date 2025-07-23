@@ -150,7 +150,7 @@ class UsersController extends Controller
         ]
       ];
       $q->role = optional($q->roles->first())->name ?? '-';
-      $q->action = view('smjlabs-auth-views::crud.action', ['data' => $data])->render();
+      $q->action = view('smjlabsauth::crud.action', ['data' => $data])->render();
       return $q;
     });
 
@@ -169,7 +169,7 @@ class UsersController extends Controller
 
     return [
       'title' => $this->title,
-      'views' => 'smjlabs-auth-views::crud.index',
+      'views' => 'smjlabsauth::crud.index',
       'breadcrumb' => $this->breadcrumbs(),
       'columns' => $this->columns(),
       'perpage' => $this->perpage,
@@ -201,7 +201,7 @@ class UsersController extends Controller
       'breadcrumb' => $breadcrumb,
       'form' => $user,
       'role' => Role::select('id', 'name')->get()->pluck('name', 'id')->toArray(),
-      'views' => 'smjlabs-auth-views::crud.form',
+      'views' => 'smjlabsauth::crud.form',
     ];
   }
   /**
@@ -349,11 +349,11 @@ class UsersController extends Controller
     if (Permission::can($this->menulabel, 'set-permission') !== true) {
       abort(403);
     }
-    $views = 'smjlabs-auth-views::users.permission';
+    $views = 'smjlabsauth::users.permission';
 
     $breadcrumb = $this->breadcrumbs();
     array_push($breadcrumb, (object)['url' => '#', 'label' => 'Set Permission']);
-    $menus = config('smjlabs-auth-config.menus');
+    $menus = config('smjlabsauth.menus');
     $accessLists = collect($menus)->flatMap(function ($menu) {
       // Ambil access-lists utama
       $lists = $menu['access-lists'] ?? [];

@@ -1,4 +1,4 @@
-@extends('smjlabs-auth-views::layouts.panel-administrator')
+@extends('smjlabsauth::layouts.panel-administrator')
 
 @section('title')
     Halaman {{ $title }}
@@ -12,10 +12,10 @@
 @endphp
 
 @section('content')
-    @include('smjlabs-auth-views::crud.breadcrumb')
+    @include('smjlabsauth::crud.breadcrumb')
     <h6 class=" display-6 mb-3 text-muted">{{ $title }}</h6>
 
-    @include('smjlabs-auth-views::alert')
+    @include('smjlabsauth::alert')
 
     <div class="card">
         <div class="card-header d-flex bg-light align-items-center gap-2">
@@ -46,8 +46,8 @@
             </div>
         </div>
 
-        @include('smjlabs-auth-views::crud.buttons')
-        @include('smjlabs-auth-views::crud.filter-row')
+        @include('smjlabsauth::crud.buttons')
+        @include('smjlabsauth::crud.filter-row')
 
         <div class="card-body p-0 mb-0">
 
@@ -114,9 +114,9 @@
         <div class="card-footer border-top-0">
             <nav class="my-2">
                 @if ($query->total() < $query->perPage())
-                    @include('smjlabs-auth-views::nodatapaginate')
+                    @include('smjlabsauth::nodatapaginate')
                 @else
-                    {{ $query->links('smjlabs-auth-views::paginate-bs-5') }}
+                    {{ $query->links('smjlabsauth::paginate-bs-5') }}
                 @endif
             </nav>
         </div>

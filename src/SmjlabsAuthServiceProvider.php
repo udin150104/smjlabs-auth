@@ -12,11 +12,11 @@ class SmjlabsAuthServiceProvider extends ServiceProvider
   public function boot()
   {
     // config
-    $this->mergeConfigFrom(__DIR__ . '/../config/smjlabsauth.php', 'smjlabs-auth-config');
+    $this->mergeConfigFrom(__DIR__ . '/../config/smjlabsauth.php', 'smjlabsauth');
     // loads
     $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
-    $this->loadTranslationsFrom(__DIR__.'/../resources/lang', namespace: 'smjlabs-auth-lang');
-    $this->loadViewsFrom(__DIR__ . '/../resources/views', 'smjlabs-auth-views');
+    // $this->loadTranslationsFrom(__DIR__.'/../resources/lang', namespace: 'smjlabsauth');
+    $this->loadViewsFrom(__DIR__ . '/../resources/views', 'smjlabsauth');
     $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
     // publishes
     $this->publishes([ __DIR__ . '/Database/Seeders/SampleUsersSeeder.php' => database_path('seeders/SampleUsersSeeder.php') ], 'smjlabs-auth-seeders');

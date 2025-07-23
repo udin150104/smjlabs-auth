@@ -21,11 +21,11 @@
 
     <div id="panel-administrator-app" data-barba="wrapper">
         <!-- Sidebar -->
-        @include('smjlabs-auth-views::layouts.part.panel-administrator.sidebar')
+        @include('smjlabsauth::layouts.part.panel-administrator.sidebar')
         <!-- Main content -->
         <div class="main-content" id="mainContent">
             <!-- Topbar -->
-            @include('smjlabs-auth-views::layouts.part.panel-administrator.topbar')
+            @include('smjlabsauth::layouts.part.panel-administrator.topbar')
 
             <!-- Content -->
             <div class="container-fluid py-2" id="content" data-barba="container" data-js="{{ $includejs ?? '' }}"
@@ -34,7 +34,7 @@
             </div>
 
             <!-- Footer -->
-            @include('smjlabs-auth-views::layouts.part.panel-administrator.footer')
+            @include('smjlabsauth::layouts.part.panel-administrator.footer')
         </div>
 
         <script src="@smjlabs_auth_assets('js/app.js')" type="module"></script>
