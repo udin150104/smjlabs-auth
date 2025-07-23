@@ -17,8 +17,8 @@ class SampleUsersSeeder extends Seeder
       Role::updateOrCreate([
         'id' => 1,
       ], [
-        'name' => 'Administator',
-        'slug' => Str::slug('Administator'),
+        'name' => 'Administrator',
+        'slug' => Str::slug('Administrator'),
         'created_at' => now(),
         'updated_at' => now(),
       ]);

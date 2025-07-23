@@ -58,7 +58,7 @@ class Permission
     if (!$user) return false;
     // dd($user);
     // Jika user memiliki role 'administrator' → akses penuh
-    if ($user->roles && strtolower($user->roles->first()->name) === 'administrator') {
+    if ($user->roles && $user->roles->first()->slug === 'administrator') {
       return true;
     }
 
