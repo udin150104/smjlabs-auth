@@ -1,0 +1,1 @@
+import{c as t,i as o}from"../js/app.js";t({icons:o});function c(){document.getElementById("role").addEventListener("change",function(){const n=this.value,e=new URL(window.location.href);e.searchParams.set("role",n),window.barba.go(e.toString())})}const i=c;export{i as __keep,c as init};

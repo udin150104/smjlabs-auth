@@ -1,0 +1,30 @@
+{
+    "name": "smjlabs/auth",
+    "description": "my simple auth installer packages for fast workspace",
+    "autoload": {
+        "psr-4": {
+            "Smjlabs\\Auth\\": "src/"
+        }
+    },
+    "keywords": [
+        "laravel packages",
+        "laravel auth packages",
+        "framework"
+    ],
+    "license": "UNLICENSED",
+    "type": "library",
+    "authors": [
+        {
+            "name": "syahrudinsmj",
+            "email": "syahrudinsmj@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Smjlabs\\Auth\\SmjlabsAuthServiceProvider"
+            ]
+        }
+    },
+    "require": {}
+}
