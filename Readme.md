@@ -1,68 +1,92 @@
-# Smjlabs Auth
-Package auth sederhana untuk kebutuhan pribadi
 
-Paket ini menyediakan :
-- Halaman login sederhana
-- Halaman admin panel sederhana
-  - Dashbboard sederhana
-  - Konfigurasi
-    - Users
-    - Izin Akses
-- Halaman Profile sederhana
-- logout
+
+# 🚀 Smjlabs Auth
+
+![Laravel](https://img.shields.io/badge/Laravel-12.x-red.svg)
+![Status](https://img.shields.io/badge/Status-Development-yellow)
+![License](https://img.shields.io/badge/license-UNLICENSED-lightgrey.svg)
+![Last Commit](https://img.shields.io/github/last-commit/udin150104/smjlabs-auth)
+
+
+**Smjlabs Auth** adalah package autentikasi sederhana berbasis Laravel untuk kebutuhan pribadi dan pengembangan cepat.
+
+
+### ✨ Fitur Utama
+
+- Halaman **Login** sederhana
+- Panel Admin minimalis:
+  - Dashboard
+  - Konfigurasi:
+    - Manajemen User
+    - Izin Akses (Permissions)
+- Halaman **Profil** pengguna
+- Fungsi **Logout**
 
 
 ### 📦 Instalasi
 
-Pasang package menggunakan composer (jika ini package terpisah):
-tambahkan pada `composer.json` root laravel
-```php
+Tambahkan repository ke `composer.json` proyek Laravel Anda:
 
-// ...
+```json
 "repositories": [
-// ...
   {
     "type": "vcs",
     "url": "https://github.com/udin150104/smjlabs-auth.git"
   }
 ],
-// ...
 "require": {
-  // ...
   "udin150104/smjlabs-auth": "dev-main"
 }
-// ...
 ```
-```php
+
+Lalu jalankan salah satu perintah berikut:
+
+```bash
 composer require udin150104/smjlabs-auth:dev-main --prefer-source
-// or
+# atau
 composer update udin150104/smjlabs-auth
 ```
-### Publish
 
-Publikasikan file konfigurasi dan resource (opsional):
-Anda bisa mempublikasikan resource tertentu menggunakan tag berikut:
+
+### 📤 Publikasi Resource
+
+Anda dapat mem-publish file konfigurasi, view, dan seeder (opsional):
+
 ```bash
 php artisan vendor:publish --tag=smjlabs-auth-config
-// config/smjlabsauth.php
+# -> config/smjlabsauth.php
+
 php artisan vendor:publish --tag=smjlabs-auth-views
-// resources/views/vendor/smjlabsauth
+# -> resources/views/vendor/smjlabs
+
 php artisan vendor:publish --tag=smjlabs-auth-seeders
-// database/seeders/SampleUsersSeeder.php
+# -> database/seeders/SampleUsersSeeder.php
 ```
 
-### Blade directive
-```php
-// if permcan
-// menulabel dari config/smjlabsauth.php [menus]
-@permcan($menulabel,$access)
+
+### 🧩 Blade Directive
+
+Untuk mengecek izin akses menggunakan `@permcan`:
+
+```blade
+@permcan($menulabel, $access)
+@endpermcan
 ```
 
-### 👥 Contributors
-
-| Username | Role |
-|----------|------|
-| [@udin150104](https://github.com/udin150104) | Creator, Maintainer & Contributor *(Main Account)* |
-| [@syahrudinsmj](https://github.com/syahrudinsmj) | Creator, Maintainer & Contributor *(Secondary Account)* |
+> `menulabel` & `access` mengacu pada konfigurasi `menus` dalam `config/smjlabsauth.php`.
 
 
+### 👥 Kontributor
+
+| Nama Pengguna                                    | Peran                                                         |
+| ------------------------------------------------ | ------------------------------------------------------------- |
+| [@udin150104](https://github.com/udin150104)     | 🛠️ Creator, Maintainer & Contributor *(Main Account)*        |
+| [@syahrudinsmj](https://github.com/syahrudinsmj) | 🧑‍💻 Creator, Maintainer & Contributor *(Secondary Account)* |
+
+
+
+### 📃 Lisensi
+
+Lisensi: **UNLICENSED**
+
+Penggunaan hanya untuk kebutuhan internal/personal.
