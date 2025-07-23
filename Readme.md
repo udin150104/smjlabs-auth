@@ -57,7 +57,7 @@ php artisan vendor:publish --tag=smjlabs-auth-config
 # -> config/smjlabsauth.php
 
 php artisan vendor:publish --tag=smjlabs-auth-views
-# -> resources/views/vendor/smjlabs
+# -> resources/views/vendor/smjlabsauth
 
 php artisan vendor:publish --tag=smjlabs-auth-seeders
 # -> database/seeders/SampleUsersSeeder.php
