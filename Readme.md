@@ -1,6 +1,6 @@
 
 
-# 🚀 Smjlabs Auth
+# 🚀 Smjlabs Core
 
 ![Laravel](https://img.shields.io/badge/Laravel-12.x-red.svg)
 ![Status](https://img.shields.io/badge/Status-Development-yellow)
@@ -8,7 +8,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/udin150104/smjlabs-auth)
 
 
-**Smjlabs Auth** adalah package autentikasi sederhana berbasis Laravel untuk kebutuhan pribadi dan pengembangan cepat.
+**Smjlabs Core** adalah package kerangka kerja core awal untuk memunjang kerja menggunakan laravel.
 
 
 ### ✨ Fitur Utama
@@ -31,20 +31,20 @@ Tambahkan repository ke `composer.json` proyek Laravel Anda:
 "repositories": [
   {
     "type": "vcs",
-    "url": "https://github.com/udin150104/smjlabs-auth.git"
+    "url": "https://github.com/udin150104/smjlabs-core.git"
   }
 ],
 "require": {
-  "udin150104/smjlabs-auth": "dev-main"
+  "udin150104/smjlabs-core": "dev-main"
 }
 ```
 
 Lalu jalankan salah satu perintah berikut:
 
 ```bash
-composer require udin150104/smjlabs-auth:dev-main --prefer-source
+composer require udin150104/smjlabs-core:dev-main --prefer-source
 # atau
-composer update udin150104/smjlabs-auth
+composer update udin150104/smjlabs-core
 ```
 
 
@@ -53,13 +53,13 @@ composer update udin150104/smjlabs-auth
 Anda dapat mem-publish file konfigurasi, view, dan seeder (opsional):
 
 ```bash
-php artisan vendor:publish --tag=smjlabs-auth-config
-# -> config/smjlabsauth.php
+php artisan vendor:publish --tag=smjlabs-core-config
+# -> config/smjlabscore.php
 
-php artisan vendor:publish --tag=smjlabs-auth-views
-# -> resources/views/vendor/smjlabsauth
+php artisan vendor:publish --tag=smjlabs-core-views
+# -> resources/views/vendor/smjlabscore
 
-php artisan vendor:publish --tag=smjlabs-auth-seeders
+php artisan vendor:publish --tag=smjlabs-core-seeders
 # -> database/seeders/SampleUsersSeeder.php
 ```
 
@@ -73,7 +73,7 @@ Untuk mengecek izin akses menggunakan `@permcan`:
 @endpermcan
 ```
 
-> `menulabel` & `access` mengacu pada konfigurasi `menus` dalam `config/smjlabsauth.php`.
+> `menulabel` & `access` mengacu pada konfigurasi `menus` dalam `config/smjlabscore.php`.
 
 
 ### 👥 Kontributor
