@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'development' => true,
+    'development' => false,
     'login_route' => 'access/login',
     'redirect_after_login' => 'page/dashboard',
     // 'register' => true,
@@ -24,6 +24,11 @@ return [
                     'label' => 'User',
                     'route-name' => 'page.users.index',
                     'access-lists' => ['access','create','edit','delete','set-permission'],
+                ],
+                [
+                    'label' => 'Role',
+                    'route-name' => 'page.roles.index',
+                    'access-lists' => ['access','create','edit','delete'],
                 ],
                 [
                     'label' => 'Izin Akses',

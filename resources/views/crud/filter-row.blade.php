@@ -53,7 +53,7 @@
             @endforeach
 
             {{-- Tombol Filter dan Reset --}}
-            <div class="col-md-12 col-sm-12 d-flex gap-2 align-items-start">
+            <div class="col-md-3 col-sm-6 d-flex gap-2 align-items-start p-1">
                 <button 
                     type="submit" 
                     class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-2"

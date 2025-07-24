@@ -1,4 +1,4 @@
-<div class="sidebar show shadow" id="sidebar">
+<div class="sidebar show " id="sidebar">
     <div class="card bg-transparent border-0 rounded-0 mb-1">
         <div class="card-body bg-transparent rounded-0  border-0">
             <button class="btn-close float-end btn-close-white d-sm-none me-2" id="close-sidebar" type="button"></button>
@@ -49,7 +49,7 @@
                             {{ $item['label'] }}
                             <i data-lucide="chevron-right" class="lucide-sm ms-auto"></i>
                         </a>
-                        <div class="collapse {{ $isActive ? 'show' : '' }}" id="{{ $collapseId }}">
+                        <div class="collapse shadow-lg {{ $isActive ? 'show' : '' }}" id="{{ $collapseId }}">
                             @foreach ($item['sub-menu'] as $sub)
                                 @permcan($sub['label'], 'access')
                                     @php

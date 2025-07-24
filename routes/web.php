@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Response;
 use Smjlabs\Auth\Http\Middleware\IsGuest;
 use Smjlabs\Auth\Http\Middleware\IsAuthenticated;
 use Smjlabs\Auth\Http\Controllers\LoginController;
+use Smjlabs\Auth\Http\Controllers\RolesController;
 use Smjlabs\Auth\Http\Controllers\UsersController;
 use Smjlabs\Auth\Http\Controllers\ProfileController;
 use Smjlabs\Auth\Http\Controllers\DashboardController;
@@ -76,5 +77,6 @@ Route::group([
     Route::get('users/{user}/set-permissions', [UsersController::class,'setpermission'])->name('users.set-permission');
     Route::post('users/{user}/set-permissions', [UsersController::class,'setpermissionprocess'])->name('users.set-permission-process');
     Route::resource('users', UsersController::class);
+    Route::resource('roles', RolesController::class);
     Route::resource('izin-akses', IzinAksesController::class)->only(['index','store']);
 });

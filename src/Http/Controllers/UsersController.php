@@ -134,19 +134,19 @@ class UsersController extends Controller
           'label' => 'Ubah',
           'icon' => 'trash',
           'url' => $fullUrlEdit,
-          'enable' => Permission::can($this->menulabel, $this->access['edit'])
+          'enable' => (auth()->user()->id === $q->id)? false : Permission::can($this->menulabel, $this->access['edit'])
         ],
         'set-permission' => [
           'label' => 'Izin Akses',
           'icon' => 'shield-alert',
           'url' => $fullUrlSetPermission,
-          'enable' => Permission::can($this->menulabel, 'set-permission')
+          'enable' => (auth()->user()->id === $q->id)? false : Permission::can($this->menulabel, 'set-permission')
         ],
         'delete' => [
           'label' => 'Hapus',
           'icon' => 'square-pen',
           'url' => $fullUrlDestroy,
-          'enable' => Permission::can($this->menulabel, 'delete')
+          'enable' => (auth()->user()->id === $q->id)? false : Permission::can($this->menulabel, 'delete')
         ]
       ];
       $q->role = optional($q->roles->first())->name ?? '-';
@@ -188,6 +188,9 @@ class UsersController extends Controller
    */
   protected function form(Request $request, $id = null)
   {
+    if(!is_null($id) && auth()->user()->id == $id){
+      abort(403);
+    }
     $breadcrumb = $this->breadcrumbs();
     $user = [];
     if (is_null($id)) {
@@ -201,7 +204,7 @@ class UsersController extends Controller
       'breadcrumb' => $breadcrumb,
       'form' => $user,
       'role' => Role::select('id', 'name')->get()->pluck('name', 'id')->toArray(),
-      'views' => 'smjlabsauth::crud.form',
+      'views' => 'smjlabsauth::users.form',
     ];
   }
   /**
@@ -281,6 +284,9 @@ class UsersController extends Controller
    */
   public function update(Request $request, User $user)
   {
+    if(auth()->user()->id == $user->id){
+      abort(403);
+    }
     if (Permission::can($this->menulabel, $this->access['edit']) !== true) {
       abort(403);
     }
@@ -319,6 +325,9 @@ class UsersController extends Controller
    */
   public function destroy(User $user)
   {
+    if(auth()->user()->id == $user->id){
+      abort(403);
+    }
     if (Permission::can($this->menulabel, 'delete') !== true) {
       abort(403);
     }
@@ -346,6 +355,9 @@ class UsersController extends Controller
    */
   public function setpermission(Request $request, User $user)
   {
+    if(auth()->user()->id == $user->id){
+      abort(403);
+    }
     if (Permission::can($this->menulabel, 'set-permission') !== true) {
       abort(403);
     }
@@ -387,6 +399,9 @@ class UsersController extends Controller
    */
   public function setpermissionprocess(Request $request, User $user)
   {
+    if(auth()->user()->id == $user->id){
+      abort(403);
+    }
     if (Permission::can($this->menulabel, 'set-permission') !== true) {
       abort(403);
     }

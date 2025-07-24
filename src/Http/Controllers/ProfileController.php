@@ -16,14 +16,20 @@ class ProfileController extends Controller
     return view('smjlabsauth::profile.index',compact('title'));
   }
 
-  public function edit(Request $request, User $id)
+  public function edit(Request $request, User $profile)
   {
+    if(auth()->user()->id !== $profile->id){
+      abort(404);
+    }
     $title = 'Form Profil';
     return view('smjlabsauth::profile.form',compact('title'));
   }
 
   public function update(UpdateProfileRequest $request, User $profile)
   {
+    if(auth()->user()->id !== $profile->id){
+      abort(404);
+    }
     try {
       $profile->name = $request->name;
       $profile->email = $request->email;

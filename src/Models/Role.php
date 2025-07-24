@@ -16,7 +16,7 @@ class Role extends Model
    * Summary of fillable
    * @var array
    */
-  protected $fillable = ['name'];
+  protected $fillable = ['name','slug'];
   /**
    * Summary of casts
    * @var array

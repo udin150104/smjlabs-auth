@@ -13,6 +13,7 @@
 
 @section('content')
     @include('smjlabsauth::crud.breadcrumb')
+    @include('smjlabsauth::alert')
 
     <div class="card">
         <div class="card-header d-flex bg-light align-items-center gap-2">
@@ -22,11 +23,7 @@
 
             <div class="ms-auto d-flex ">
                 @php
-                    $currentRoute = request()->route()->getName();
-                    // $indexRoute = preg_replace('/\.create$/', '.index', $currentRoute);
-                    $indexRoute = preg_replace('/\.(create|edit|show|update|destroy)$/', '.index', $currentRoute);
-                    $indexRoute = preg_replace('/\.(create|edit|show|update|destroy)$/', '.index', $currentRoute);
-                    $urlIndex = route($indexRoute);
+                    $urlIndex = route('page.users.index');
                     $urlquery = request()->query();
                     $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
                 @endphp
@@ -36,9 +33,6 @@
         </div>
 
         <div class="card-body">
-
-            @include('smjlabsauth::alert')
-
             @php
                 $currentRoute = request()->route()->getName();
                 if ($type == 'create') {
