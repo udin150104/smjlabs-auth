@@ -8,7 +8,7 @@
 ![Last Commit](https://img.shields.io/github/last-commit/udin150104/smjlabs-auth)
 
 
-**Smjlabs Core** adalah package kerangka kerja core awal untuk memunjang kerja menggunakan laravel.
+**Smjlabs Core** adalah package kerangka kerja core awal untuk menunjang kerja menggunakan laravel.
 
 
 ### ✨ Fitur Utama
