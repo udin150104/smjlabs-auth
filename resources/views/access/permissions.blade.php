@@ -76,7 +76,7 @@
                                                 class="text-center {{ in_array($acs, $v['access-lists']) ? '' : 'bg-secondary-subtle' }}">
                                                 @if (in_array($acs, $v['access-lists']))
                                                     @php
-                                                        $checked = \Smjlabs\Auth\Http\Helpers\Permission::check(
+                                                        $checked = \Smjlabs\Core\Http\Helpers\Permission::check(
                                                             $v['label'],
                                                             $acs,
                                                             request('role'),
@@ -113,7 +113,7 @@
                                                         class="text-center {{ in_array($acs, $vv['access-lists']) ? '' : 'bg-secondary-subtle' }}">
                                                         @if (in_array($acs, $vv['access-lists']))
                                                             @php
-                                                                $checked = \Smjlabs\Auth\Http\Helpers\Permission::check(
+                                                                $checked = \Smjlabs\Core\Http\Helpers\Permission::check(
                                                                     $vv['label'],
                                                                     $acs,
                                                                     request('role'),

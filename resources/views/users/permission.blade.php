@@ -80,7 +80,7 @@
                                             class="text-center {{ in_array($acs, $v['access-lists']) ? '' : 'bg-secondary-subtle' }}">
                                             @if (in_array($acs, $v['access-lists']))
                                                 @php
-                                                    $byrole = \Smjlabs\Auth\Http\Helpers\Permission::check(
+                                                    $byrole = \Smjlabs\Core\Http\Helpers\Permission::check(
                                                         $v['label'],
                                                         $acs,
                                                         $user->roles->first()->name,
@@ -92,7 +92,7 @@
                                                         Default by role</span>
                                                 @else
                                                     @php
-                                                        $checked = \Smjlabs\Auth\Http\Helpers\Permission::checkbyUser(
+                                                        $checked = \Smjlabs\Core\Http\Helpers\Permission::checkbyUser(
                                                             $v['label'],
                                                             $acs,
                                                             $user->id,
@@ -121,7 +121,7 @@
                                                     class="text-center {{ in_array($acs, $vv['access-lists']) ? '' : 'bg-secondary-subtle' }}">
                                                     @if (in_array($acs, $vv['access-lists']))
                                                         @php
-                                                            $byrole = \Smjlabs\Auth\Http\Helpers\Permission::check(
+                                                            $byrole = \Smjlabs\Core\Http\Helpers\Permission::check(
                                                                 $vv['label'],
                                                                 $acs,
                                                                 $user->roles->first()->name,
@@ -133,7 +133,7 @@
                                                                     class="lucide-sm me-1"></i> Default by role</span>
                                                         @else
                                                             @php
-                                                                $checked = \Smjlabs\Auth\Http\Helpers\Permission::checkbyUser(
+                                                                $checked = \Smjlabs\Core\Http\Helpers\Permission::checkbyUser(
                                                                     $vv['label'],
                                                                     $acs,
                                                                     $user->id,
