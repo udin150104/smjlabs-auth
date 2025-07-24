@@ -3,11 +3,11 @@
 namespace Database\Seeders;
 
 use Illuminate\Support\Str;
-use Smjlabs\Auth\Models\Role;
+use Smjlabs\Core\Models\Role;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
-use Smjlabs\Auth\Models\User;
+use Smjlabs\Core\Models\User;
 
 class SampleUsersSeeder extends Seeder
 {

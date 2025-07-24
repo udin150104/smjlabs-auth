@@ -1,13 +1,11 @@
 <?php
-namespace Smjlabs\Auth\Traits;
+namespace Smjlabs\Core\Traits;
 
 use Illuminate\Http\Request;
-use Smjlabs\Auth\Http\Helpers\Permission;
+use Smjlabs\Core\Http\Helpers\Permission;
 
 trait StaticLists
 {
-
-  protected $views = 'smjlabs-auth-views';
 
   public function index(Request $request)
   {

@@ -1,4 +1,4 @@
-@extends('smjlabsauth::layouts.panel-administrator')
+@extends('smjlabscore::layouts.panel-administrator')
 
 @section('title')
     Halaman {{ $title }}
@@ -8,7 +8,7 @@
 @section('namespace'){{ Str::slug('Halaman ' . $title) }}@endsection
 
 @section('content')
-    @include('smjlabsauth::alert')
+    @include('smjlabscore::alert')
     <div class="card ">
         <div class="card-header d-flex bg-light align-items-center gap-2">
             <span class="fw-bold text-muted d-flex align-items-center">

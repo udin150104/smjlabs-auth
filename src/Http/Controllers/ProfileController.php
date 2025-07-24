@@ -1,19 +1,18 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Controllers;
+namespace Smjlabs\Core\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Smjlabs\Auth\Models\User;
-use Illuminate\Validation\Rule;
+use Smjlabs\Core\Models\User;
 use App\Http\Controllers\Controller;
-use Smjlabs\Auth\Http\Requests\UpdateProfileRequest;
+use Smjlabs\Core\Http\Requests\UpdateProfileRequest;
 
 class ProfileController extends Controller
 {
   public function index()
   {
     $title = 'Informasi Profil';
-    return view('smjlabsauth::profile.index',compact('title'));
+    return view('smjlabscore::profile.index',compact('title'));
   }
 
   public function edit(Request $request, User $profile)
@@ -22,7 +21,7 @@ class ProfileController extends Controller
       abort(404);
     }
     $title = 'Form Profil';
-    return view('smjlabsauth::profile.form',compact('title'));
+    return view('smjlabscore::profile.form',compact('title'));
   }
 
   public function update(UpdateProfileRequest $request, User $profile)

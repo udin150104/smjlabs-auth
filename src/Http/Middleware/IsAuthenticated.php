@@ -1,6 +1,6 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Middleware;
+namespace Smjlabs\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -17,7 +17,7 @@ class IsAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->to(config('smjlabsauth.login_route'));
+            return redirect()->to(config('smjlabscore.login_route'));
         }
 
         return $next($request);

@@ -1,6 +1,6 @@
 <?php
 
-namespace Smjlabs\Auth\Models;
+namespace Smjlabs\Core\Models;
 
 use App\Models\User as UserBaseModel;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

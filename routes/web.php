@@ -3,20 +3,20 @@
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
-use Smjlabs\Auth\Http\Middleware\IsGuest;
-use Smjlabs\Auth\Http\Middleware\IsAuthenticated;
-use Smjlabs\Auth\Http\Controllers\LoginController;
-use Smjlabs\Auth\Http\Controllers\RolesController;
-use Smjlabs\Auth\Http\Controllers\UsersController;
-use Smjlabs\Auth\Http\Controllers\ProfileController;
-use Smjlabs\Auth\Http\Controllers\DashboardController;
-use Smjlabs\Auth\Http\Controllers\IzinAksesController;
-use Smjlabs\Auth\Http\Middleware\ContentSecurityPolicy;
+use Smjlabs\Core\Http\Middleware\IsGuest;
+use Smjlabs\Core\Http\Middleware\IsAuthenticated;
+use Smjlabs\Core\Http\Controllers\LoginController;
+use Smjlabs\Core\Http\Controllers\RolesController;
+use Smjlabs\Core\Http\Controllers\UsersController;
+use Smjlabs\Core\Http\Controllers\ProfileController;
+use Smjlabs\Core\Http\Controllers\DashboardController;
+use Smjlabs\Core\Http\Controllers\IzinAksesController;
+use Smjlabs\Core\Http\Middleware\ContentSecurityPolicy;
 
 /**
  * Load asset local packages assets
  */
-Route::get('/smjlabs-auth-assets/{path}', function ($path) {
+Route::get('/smjlabs-core-assets/{path}', function ($path) {
     $file = __DIR__ . '/../public/' . $path;
 
     if (!file_exists($file)) {

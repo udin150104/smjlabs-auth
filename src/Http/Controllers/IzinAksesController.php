@@ -1,15 +1,13 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Controllers;
+namespace Smjlabs\Core\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Smjlabs\Auth\Models\Role;
-use Smjlabs\Auth\Models\User;
+use Smjlabs\Core\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Smjlabs\Auth\Http\Helpers\Permission;
+use Smjlabs\Core\Http\Helpers\Permission;
 
 class IzinAksesController extends Controller
 {
@@ -29,7 +27,7 @@ class IzinAksesController extends Controller
       (object)['url' => '#', 'label' => 'Konfigurasi'],
       (object)['url' => '#', 'label' => 'Izin Akses']
     ];
-    $menus = config('smjlabsauth.menus');
+    $menus = config('smjlabscore.menus');
     $accessLists = collect($menus)->flatMap(function ($menu) {
       // Ambil access-lists utama
       $lists = $menu['access-lists'] ?? [];
@@ -45,9 +43,13 @@ class IzinAksesController extends Controller
       return $lists;
     })->unique()->values();
     $role = Role::get();
-    return view('smjlabsauth::access.permissions', compact('title', 'breadcrumb', 'accessLists', 'accessLists', 'menus', 'role'));
+    return view('smjlabscore::access.permissions', compact('title', 'breadcrumb', 'accessLists', 'accessLists', 'menus', 'role'));
   }
-
+  /**
+   * Summary of store
+   * @param \Illuminate\Http\Request $request
+   * @return \Illuminate\Http\RedirectResponse
+   */
   public function store(Request $request)
   {
     if (Permission::can('Izin Akses', 'set-permission') !== true) {
@@ -58,8 +60,6 @@ class IzinAksesController extends Controller
     ], [],  [
       'role' => 'Role/Peran',
     ]);
-
-    // dd($request->all());
     try {
       $role = Role::firstOrCreate(['name' => $request->input('role')]);
       $roleId = $role->id;

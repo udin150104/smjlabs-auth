@@ -1,6 +1,6 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Middleware;
+namespace Smjlabs\Core\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ class ContentSecurityPolicy
   {
     $response = $next($request);
 
-    if (config('smjlabsauth.development') == true) {
+    if (config('smjlabscore.development') == true) {
       $policy = implode('; ', [
         "default-src 'self'",
         "script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: http://localhost:5173 https://cdn.jsdelivr.net https://unpkg.com",

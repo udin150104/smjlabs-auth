@@ -1,16 +1,16 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Controllers;
+namespace Smjlabs\Core\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Smjlabs\Auth\Models\Role;
-use Smjlabs\Auth\Models\User;
+use Smjlabs\Core\Models\Role;
+use Smjlabs\Core\Models\User;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Smjlabs\Auth\Traits\StaticLists;
-use Smjlabs\Auth\Http\Helpers\Permission;
+use Smjlabs\Core\Traits\StaticLists;
+use Smjlabs\Core\Http\Helpers\Permission;
 
 class UsersController extends Controller
 {
@@ -150,7 +150,7 @@ class UsersController extends Controller
         ]
       ];
       $q->role = optional($q->roles->first())->name ?? '-';
-      $q->action = view('smjlabsauth::crud.action', ['data' => $data])->render();
+      $q->action = view('smjlabscore::crud.action', ['data' => $data])->render();
       return $q;
     });
 
@@ -169,7 +169,7 @@ class UsersController extends Controller
 
     return [
       'title' => $this->title,
-      'views' => 'smjlabsauth::crud.index',
+      'views' => 'smjlabscore::crud.index',
       'breadcrumb' => $this->breadcrumbs(),
       'columns' => $this->columns(),
       'perpage' => $this->perpage,
@@ -204,7 +204,7 @@ class UsersController extends Controller
       'breadcrumb' => $breadcrumb,
       'form' => $user,
       'role' => Role::select('id', 'name')->get()->pluck('name', 'id')->toArray(),
-      'views' => 'smjlabsauth::users.form',
+      'views' => 'smjlabscore::users.form',
     ];
   }
   /**
@@ -279,7 +279,7 @@ class UsersController extends Controller
   /**
    * Summary of update
    * @param \Illuminate\Http\Request $request
-   * @param \Smjlabs\Auth\Models\User $user
+   * @param \Smjlabs\Core\Models\User $user
    * @return \Illuminate\Http\RedirectResponse
    */
   public function update(Request $request, User $user)
@@ -320,7 +320,7 @@ class UsersController extends Controller
   }
   /**
    * Summary of destroy
-   * @param \Smjlabs\Auth\Models\User $user
+   * @param \Smjlabs\Core\Models\User $user
    * @return \Illuminate\Http\RedirectResponse
    */
   public function destroy(User $user)
@@ -350,7 +350,7 @@ class UsersController extends Controller
   /**
    * Summary of setpermission
    * @param \Illuminate\Http\Request $request
-   * @param \Smjlabs\Auth\Models\User $user
+   * @param \Smjlabs\Core\Models\User $user
    * @return \Illuminate\Contracts\View\View
    */
   public function setpermission(Request $request, User $user)
@@ -361,11 +361,11 @@ class UsersController extends Controller
     if (Permission::can($this->menulabel, 'set-permission') !== true) {
       abort(403);
     }
-    $views = 'smjlabsauth::users.permission';
+    $views = 'smjlabscore::users.permission';
 
     $breadcrumb = $this->breadcrumbs();
     array_push($breadcrumb, (object)['url' => '#', 'label' => 'Set Permission']);
-    $menus = config('smjlabsauth.menus');
+    $menus = config('smjlabscore.menus');
     $accessLists = collect($menus)->flatMap(function ($menu) {
       // Ambil access-lists utama
       $lists = $menu['access-lists'] ?? [];
@@ -394,7 +394,7 @@ class UsersController extends Controller
   /**
    * Summary of setpermissionprocess
    * @param \Illuminate\Http\Request $request
-   * @param \Smjlabs\Auth\Models\User $user
+   * @param \Smjlabs\Core\Models\User $user
    * @return \Illuminate\Http\RedirectResponse
    */
   public function setpermissionprocess(Request $request, User $user)

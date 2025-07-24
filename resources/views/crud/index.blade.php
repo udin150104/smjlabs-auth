@@ -1,4 +1,4 @@
-@extends('smjlabsauth::layouts.panel-administrator')
+@extends('smjlabscore::layouts.panel-administrator')
 
 @section('title')
     Halaman {{ $title }}
@@ -12,10 +12,10 @@
 @endphp
 
 @section('content')
-    @include('smjlabsauth::crud.breadcrumb')
+    @include('smjlabscore::crud.breadcrumb')
     <h6 class=" display-6 mb-3 text-muted">{{ $title }}</h6>
 
-    @include('smjlabsauth::alert')
+    @include('smjlabscore::alert')
 
     <div class="card">
         <div class="card-header d-flex bg-light align-items-center gap-2">
@@ -46,8 +46,8 @@
             </div>
         </div>
 
-        @include('smjlabsauth::crud.buttons')
-        @include('smjlabsauth::crud.filter-row')
+        @include('smjlabscore::crud.buttons')
+        @include('smjlabscore::crud.filter-row')
 
         <div class="card-body p-0 mb-0">
 
@@ -114,9 +114,9 @@
         <div class="card-footer border-top-0">
             <nav class="my-2">
                 @if ($query->total() < $query->perPage())
-                    @include('smjlabsauth::nodatapaginate')
+                    @include('smjlabscore::nodatapaginate')
                 @else
-                    {{ $query->links('smjlabsauth::paginate-bs-5') }}
+                    {{ $query->links('smjlabscore::paginate-bs-5') }}
                 @endif
             </nav>
         </div>

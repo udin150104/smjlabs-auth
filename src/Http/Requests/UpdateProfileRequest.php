@@ -1,6 +1,6 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Requests;
+namespace Smjlabs\Core\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 

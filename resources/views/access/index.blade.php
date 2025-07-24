@@ -1,4 +1,4 @@
-@extends('smjlabsauth::layouts.login')
+@extends('smjlabscore::layouts.login')
 @php
     $includejs = 'login';
 @endphp
@@ -16,7 +16,7 @@
                 </p>
             </div>
 
-            @include('smjlabsauth::alert')
+            @include('smjlabscore::alert')
 
             <form method="POST" action="{{ route('acc.login.store') }}">
                 @csrf

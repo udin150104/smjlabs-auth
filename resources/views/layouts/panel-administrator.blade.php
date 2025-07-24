@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title') </title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="stylesheet" href="@smjlabs_auth_assets('css/style.css')">
+    <link rel="stylesheet" href="@smjlabs_core_assets('css/style.css')">
 </head>
 
 <body>
@@ -21,11 +21,11 @@
 
     <div id="panel-administrator-app" data-barba="wrapper">
         <!-- Sidebar -->
-        @include('smjlabsauth::layouts.part.panel-administrator.sidebar')
+        @include('smjlabscore::layouts.part.panel-administrator.sidebar')
         <!-- Main content -->
         <div class="main-content" id="mainContent">
             <!-- Topbar -->
-            @include('smjlabsauth::layouts.part.panel-administrator.topbar')
+            @include('smjlabscore::layouts.part.panel-administrator.topbar')
 
             <!-- Content -->
             <div class="container-fluid py-2" id="content" data-barba="container" data-js="{{ $includejs ?? '' }}"
@@ -34,10 +34,10 @@
             </div>
 
             <!-- Footer -->
-            @include('smjlabsauth::layouts.part.panel-administrator.footer')
+            @include('smjlabscore::layouts.part.panel-administrator.footer')
         </div>
 
-        <script src="@smjlabs_auth_assets('js/app.js')" type="module"></script>
+        <script src="@smjlabs_core_assets('js/app.js')" type="module"></script>
     </div>
 </body>
 

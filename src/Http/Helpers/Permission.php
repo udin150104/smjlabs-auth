@@ -1,9 +1,9 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Helpers;
+namespace Smjlabs\Core\Http\Helpers;
 
-use Smjlabs\Auth\Models\Role;
-use Smjlabs\Auth\Models\User;
+use Smjlabs\Core\Models\Role;
+use Smjlabs\Core\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 

@@ -5,3 +5,5 @@
   - perbaikan halaman profile
   - perbaikan halaman user
   - penambahan menu roles dan fitur crud role
+  - rename package to smjlabs/core
+  - change readme

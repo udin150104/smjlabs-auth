@@ -1,17 +1,15 @@
 <?php
 
-namespace Smjlabs\Auth\Http\Controllers;
+namespace Smjlabs\Core\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Smjlabs\Auth\Models\Role;
-use Smjlabs\Auth\Models\User;
+use Smjlabs\Core\Models\Role;
 use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Smjlabs\Auth\Traits\StaticLists;
-use Smjlabs\Auth\Http\Helpers\Permission;
+use Smjlabs\Core\Traits\StaticLists;
+use Smjlabs\Core\Http\Helpers\Permission;
 
 class RolesController extends Controller
 {
@@ -116,7 +114,7 @@ class RolesController extends Controller
           'enable' => (strtolower($q->name) == 'administrator')? false: Permission::can($this->menulabel, 'delete')
         ]
       ];
-      $q->action = view('smjlabsauth::crud.action', ['data' => $data])->render();
+      $q->action = view('smjlabscore::crud.action', ['data' => $data])->render();
       return $q;
     });
 
@@ -135,7 +133,7 @@ class RolesController extends Controller
 
     return [
       'title' => $this->title,
-      'views' => 'smjlabsauth::crud.index',
+      'views' => 'smjlabscore::crud.index',
       'breadcrumb' => $this->breadcrumbs(),
       'columns' => $this->columns(),
       'perpage' => $this->perpage,
@@ -166,7 +164,7 @@ class RolesController extends Controller
       'title' => 'Form ' . $this->title,
       'breadcrumb' => $breadcrumb,
       'form' => $role,
-      'views' => 'smjlabsauth::roles.form',
+      'views' => 'smjlabscore::roles.form',
     ];
   }
   /**
@@ -218,7 +216,7 @@ class RolesController extends Controller
   /**
    * Summary of update
    * @param \Illuminate\Http\Request $request
-   * @param \Smjlabs\Auth\Models\Role $role
+   * @param \Smjlabs\Core\Models\Role $role
    * @return \Illuminate\Http\RedirectResponse
    */
   public function update(Request $request, Role $role)
@@ -249,7 +247,7 @@ class RolesController extends Controller
   }
   /**
    * Summary of destroy
-   * @param \Smjlabs\Auth\Models\Role $role
+   * @param \Smjlabs\Core\Models\Role $role
    * @return \Illuminate\Http\RedirectResponse
    */
   public function destroy(Role $role)
