@@ -55,9 +55,11 @@ Anda dapat mem-publish file konfigurasi, view, dan seeder (opsional):
 ```bash
 php artisan vendor:publish --tag=smjlabs-core-config
 # -> config/smjlabscore.php
+# -> use config('smjlabscore.configkey')
 
 php artisan vendor:publish --tag=smjlabs-core-views
 # -> resources/views/vendor/smjlabscore
+# -> use view('smjlabscore::page')
 
 php artisan vendor:publish --tag=smjlabs-core-seeders
 # -> database/seeders/SampleUsersSeeder.php
