@@ -33,8 +33,8 @@ class UpdateProfileRequest extends FormRequest
             'email.email' => 'Format email tidak valid.',
             'email.unique' => 'Email sudah digunakan.',
             'password.min' => 'Kata sandi minimal 8 karakter.',
-            'password.same' => 'Konfirmasi kata sandi tidak cocok.',
-            'password_confirm.min' => 'Kata sandi minimal 8 karakter.',
+            'password.same' => 'Kata sandi dan Konfirmasi kata sandi tidak cocok.',
+            'password_confirm.min' => 'Konfirmasi kata sandi minimal 8 karakter.',
             'password_confirm.same' => 'Konfirmasi kata sandi tidak cocok.',
         ];
     }

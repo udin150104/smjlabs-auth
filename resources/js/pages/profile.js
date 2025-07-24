@@ -35,50 +35,6 @@ export function init() {
     }
   });
 
-  const btnEdit = document.getElementById('btn-edit');
-  const form = document.getElementById('form');
-  let isEditing = false;
-
-  let errorForm = btnEdit.dataset.error; 
-  if(errorForm == 'error'){
-    setTimeout(() => {
-      btnEdit.click();
-    }, 100);
-  }
-
-  btnEdit.addEventListener('click', function () {
-    const inputs = form.querySelectorAll('input');
-
-    inputs.forEach(input => {
-      if (input.type === 'hidden') return;
-      if (input.hasAttribute('readonly')) {
-        input.readOnly = isEditing;
-      }
-      if (input.type !== 'hidden') {
-        if (isEditing) {
-          document.querySelectorAll('.error-help').forEach(div => {
-            div.remove();
-          });
-          input.classList.add('form-control-plaintext');
-          document.getElementById('at-sign').classList.add('p-0','border-0');
-          document.getElementById('hidden-form').classList.add('d-none');
-        } else {
-          document.getElementById('at-sign').classList.remove('p-0','border-0');
-          input.classList.remove('form-control-plaintext');
-          document.getElementById('hidden-form').classList.remove('d-none');
-        }
-      }
-    });
-
-    // Toggle status dan teks tombol
-    isEditing = !isEditing;
-    btnEdit.innerHTML = isEditing
-      ? '<i data-lucide="x" class="lucide-sm"></i> Batal'
-      : '<i data-lucide="pencil-line" class="lucide-sm"></i> Edit';
-
-    // Optional: update ikon lucide
-    createIcons({ icons });
-  });
 }
 
 export const __keep = init;

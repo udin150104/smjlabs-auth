@@ -12,14 +12,19 @@ class ProfileController extends Controller
 {
   public function index()
   {
-    $title = 'Profil';
+    $title = 'Informasi Profil';
     return view('smjlabsauth::profile.index',compact('title'));
+  }
+
+  public function edit(Request $request, User $id)
+  {
+    $title = 'Form Profil';
+    return view('smjlabsauth::profile.form',compact('title'));
   }
 
   public function update(UpdateProfileRequest $request, User $profile)
   {
     try {
-      //code...
       $profile->name = $request->name;
       $profile->email = $request->email;
       $profile->username = $request->username;
@@ -28,7 +33,7 @@ class ProfileController extends Controller
       }
       $profile->update();
 
-      return redirect()->back()->with('success',' Data berhasil diperbaharui');
+      return redirect()->route('page.profile.index')->with('success',' Data berhasil diperbaharui');
     } catch (\Throwable $th) {
       return redirect()->back()->with('error', 'Terjadi kesalahan: ' . $th->getMessage());
     }

@@ -72,7 +72,7 @@ Route::group([
     ]
 ], function () {
     Route::resource('dashboard', DashboardController::class)->only(['index']);
-    Route::resource('profile', ProfileController::class)->only(['index','update']);
+    Route::resource('profile', ProfileController::class)->only(['index','edit','update']);
     Route::get('users/{user}/set-permissions', [UsersController::class,'setpermission'])->name('users.set-permission');
     Route::post('users/{user}/set-permissions', [UsersController::class,'setpermissionprocess'])->name('users.set-permission-process');
     Route::resource('users', UsersController::class);

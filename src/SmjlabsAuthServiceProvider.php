@@ -5,7 +5,7 @@ namespace Smjlabs\Auth;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
-use Smjlabs\Auth\Http\Middleware\ContentSecurityPolicy;
+use Smjlabs\Auth\Http\Helpers\Permission;
 
 class SmjlabsAuthServiceProvider extends ServiceProvider
 {
@@ -37,7 +37,7 @@ class SmjlabsAuthServiceProvider extends ServiceProvider
       return "<?php echo url('/smjlabs-auth-assets/' . $path); ?>";
     });
     Blade::if('permcan', function ($label, $access) {
-        return \Smjlabs\Auth\Http\Helpers\Permission::can($label, $access);
+        return Permission::can($label, $access);
     });
   }
 
