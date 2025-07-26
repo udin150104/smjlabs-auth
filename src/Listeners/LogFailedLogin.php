@@ -9,11 +9,11 @@ class LogFailedLogin
 {
     public function handle(Failed $event)
     {
-        $credentials = Request::only('email', 'username'); // tergantung field login Anda
+        $credentials = Request::only(['email', 'username']); // tergantung field login Anda
         $description = 'Percobaan login gagal';
 
         if ($event->user) {
-            $description .= ' oleh user terdaftar #' . $event->user->id;
+            $description .= ' oleh user terdaftar #' . ($credentials['email'] ?? '-');
         } else {
             $description .= ' dengan inisial akses : ' . ($credentials['email'] ?? '-');
         }
