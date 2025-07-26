@@ -3,7 +3,8 @@ createIcons({ icons }); // render awal
 
 export function init() {
   document.getElementById('crud-delete-filter')?.addEventListener('click', function (e) {
-    e.preventDefault();
+    // e.preventDefault();
+    // console.log('clicked');
 
     const form = document.querySelector('form#crud-filter-form');
     if (!form) return;
@@ -23,6 +24,19 @@ export function init() {
       }
     });
 
+    document.querySelectorAll('.tom-select').forEach(el => {
+      const instance = el.tomselect;
+      if (instance) {
+        instance.clear();      
+      }
+    });
+    document.querySelectorAll('.tom-select-ajax').forEach(el => {
+      const instance = el.tomselect;
+      if (instance) {
+        instance.clear();
+      }
+    });
+
     // Buat ulang URL tanpa query
     const actionUrl = form.getAttribute('action')?.split('?')[0] || window.location.pathname;
 
@@ -39,7 +53,11 @@ export function init() {
     const finalUrl = params.toString() ? `${actionUrl}?${params.toString()}` : actionUrl;
 
     // Navigasi dengan Barba.js
-    window.barba.go(finalUrl);
+    // window.barba.go(finalUrl, { force: true });
+    if (window.barba && window.barba.go) {
+      window.barba.go(finalUrl, { force: true });
+      // window.barba.go(`${finalUrl}?_force=1`, { force: true });
+    }
   });
 
 
@@ -74,7 +92,7 @@ export function init() {
       modalElement.querySelector(".modal-body").innerHTML = "Anda yakin ingin menghapus data ini?";
       modalElement.querySelector(".modal-footer").classList.add("text-white", "bg-danger", "border-top-0");
 
-      modalElement.querySelector(".btn-close-modal").classList.add("btn-danger","border-0");
+      modalElement.querySelector(".btn-close-modal").classList.add("btn-danger", "border-0");
       modalElement.querySelector(".btn-close-modal").innerHTML = "Batal";
       modalElement.querySelector(".btn-action-modal").classList.add("btn-light");
       modalElement.querySelector(".btn-action-modal").innerHTML = "Ya, Yakin";

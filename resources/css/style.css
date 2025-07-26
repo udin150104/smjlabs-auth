@@ -1,4 +1,40 @@
+@import url('tom-select/dist/css/tom-select.css');
 @import url('bootstrap/dist/css/bootstrap.min.css');
+@import url('@eonasdan/tempus-dominus/dist/css/tempus-dominus.min.css');
+@import url('./bootstrap-icons/font/bootstrap-icons.css');
+/* Overide tomselect*/
+.ts-control {
+  border: 1px solid #dee2e6 !important;
+  padding: 8px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  box-shadow: none;
+  border-radius: .375rem;
+  display: flex;
+  line-height: 1.3;
+  flex-wrap: wrap;
+  /* margin: -5px -5px -5px -5px !important; */
+  font-size: 1rem;
+}
+.ts-control .item {
+  background-color: #dee2e6 !important;
+  padding:0px 10px !important;
+  border-radius: .375rem !important;
+}
+.no-results,
+.ts-control input{
+  font-size: 1rem;
+}
+.ts-dropdown-content .option {
+  font-size: 1rem !important;
+}
+/* Overide tempus-dominus*/
+.tempus-dominus-widget {
+  padding:10px;
+}
 
 /* Lucide Custom */
 .lucide-70 {
@@ -91,10 +127,10 @@ button:focus,
 }
 
 .modal{
-  z-index: 99001 !important;
+  z-index: 100011 !important;
 }
 .modal-backdrop{
-  z-index: 99000 !important;
+  z-index: 100010 !important;
 }
 
 /* Hilangkan efek klik dan fokus pada tombol */
@@ -159,7 +195,7 @@ a:active {
   color: #fff;
   /* padding-top: 60px; */
   overflow-y: auto;
-  z-index: 9999;
+  z-index: 10002;
   /* transition: all 0.3s ease; */
 }
 
@@ -242,7 +278,7 @@ a:active {
   border-bottom: 1px solid #dee2e6;
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 10001;
 }
 
 #panel-administrator-app .footer {

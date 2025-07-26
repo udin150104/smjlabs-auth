@@ -9,6 +9,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Smjlabs\Core\Models\ActivityLog;
 use Smjlabs\Core\Traits\StaticLists;
 use Smjlabs\Core\Http\Helpers\Permission;
 
@@ -62,11 +64,11 @@ class UsersController extends Controller
   protected function columns()
   {
     return [
-      'name' =>  ['label' => 'Nama', 'search' => true, 'type' => 'input', 'sort' => true],
-      'username' => ['label' => 'Username', 'width' => 200, 'search' => true, 'type' => 'input', 'sort' => true],
-      'email' =>  ['label' => 'Email', 'width' => 200, 'search' => true, 'type' => 'input', 'sort' => true],
-      'role' =>  ['label' => 'Peran', 'width' => 200, 'search' => true, 'type' => 'select', 'select_data' => Role::select('id', 'name')->get()->pluck('name', 'id')->toArray(), 'sort' => true],
-      'action' =>  ['label' => 'Aksi', 'width' => 300, 'search' => false, 'sort' => false],
+      'name' =>  ['label' => 'Nama', 'column' => true, 'search' => true, 'type' => 'input', 'sort' => true],
+      'username' => ['label' => 'Username', 'column' => true, 'width' => 200, 'search' => true, 'type' => 'input', 'sort' => true],
+      'email' =>  ['label' => 'Email', 'column' => true, 'width' => 200, 'search' => true, 'type' => 'input', 'sort' => true],
+      'role' =>  ['label' => 'Peran', 'column' => true, 'width' => 200, 'search' => true, 'type' => 'tom-select-ajax', 'data-url' => 'api-form/role', 'sort' => true],
+      'action' =>  ['label' => 'Aksi', 'column' => true, 'width' => 300, 'search' => false, 'sort' => false],
     ];
   }
   /**
@@ -76,7 +78,7 @@ class UsersController extends Controller
   protected function query($request)
   {
     // Ambil kolom yang akan ditampilkan
-    $selectFields = array_keys($this->columns());
+    $selectFields = array_keys(collect($this->columns())->where('column', true)->toArray());
     $selectFields = array_merge(['id'], $selectFields);
     // per page
     $this->perpage = $request->input('perpage', $this->perpage);
@@ -108,15 +110,17 @@ class UsersController extends Controller
           ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
           ->orderBy('roles.name', $request->sort);
       } else {
-        if ($request->has('sort') && $request->filled('sort') && $request->has('orderby') && $request->filled('orderby') && $request->orderby == 'role') {
-          $query->orderBy("users.{$orderby}", $request->sort);
-        } else {
-          $query->orderBy($orderby, $request->sort);
-        }
+        $query->orderBy("users.{$orderby}", $request->sort);
       }
+    } else {
+      $query->orderBy('created_at', 'asc');
     }
 
     $paginated = $query->paginate($this->perpage)->appends($request->except('page'));
+    if ($paginated->currentPage() > $paginated->lastPage()) {
+      $request->merge(['page' => $paginated->lastPage()]);
+      $paginated = $query->paginate($this->perpage)->appends($request->except('page'));
+    }
     /**
      * Tulisa ulang isi data
      * Transform hasil (misal, tambahkan tombol aksi dll)
@@ -134,19 +138,19 @@ class UsersController extends Controller
           'label' => 'Ubah',
           'icon' => 'trash',
           'url' => $fullUrlEdit,
-          'enable' => (auth()->user()->id === $q->id)? false : Permission::can($this->menulabel, $this->access['edit'])
+          'enable' => (Auth::user()->id === $q->id) ? false : Permission::can($this->menulabel, $this->access['edit'])
         ],
         'set-permission' => [
           'label' => 'Izin Akses',
           'icon' => 'shield-alert',
           'url' => $fullUrlSetPermission,
-          'enable' => (auth()->user()->id === $q->id)? false : Permission::can($this->menulabel, 'set-permission')
+          'enable' => (Auth::user()->id === $q->id) ? false : Permission::can($this->menulabel, 'set-permission')
         ],
         'delete' => [
           'label' => 'Hapus',
           'icon' => 'square-pen',
           'url' => $fullUrlDestroy,
-          'enable' => (auth()->user()->id === $q->id)? false : Permission::can($this->menulabel, 'delete')
+          'enable' => (Auth::user()->id === $q->id) ? false : Permission::can($this->menulabel, 'delete')
         ]
       ];
       $q->role = optional($q->roles->first())->name ?? '-';
@@ -188,7 +192,7 @@ class UsersController extends Controller
    */
   protected function form(Request $request, $id = null)
   {
-    if(!is_null($id) && auth()->user()->id == $id){
+    if (!is_null($id) && Auth::user()->id == $id) {
       abort(403);
     }
     $breadcrumb = $this->breadcrumbs();
@@ -284,7 +288,7 @@ class UsersController extends Controller
    */
   public function update(Request $request, User $user)
   {
-    if(auth()->user()->id == $user->id){
+    if (Auth::user()->id == $user->id) {
       abort(403);
     }
     if (Permission::can($this->menulabel, $this->access['edit']) !== true) {
@@ -325,7 +329,7 @@ class UsersController extends Controller
    */
   public function destroy(User $user)
   {
-    if(auth()->user()->id == $user->id){
+    if (Auth::user()->id == $user->id) {
       abort(403);
     }
     if (Permission::can($this->menulabel, 'delete') !== true) {
@@ -355,7 +359,7 @@ class UsersController extends Controller
    */
   public function setpermission(Request $request, User $user)
   {
-    if(auth()->user()->id == $user->id){
+    if (Auth::user()->id == $user->id) {
       abort(403);
     }
     if (Permission::can($this->menulabel, 'set-permission') !== true) {
@@ -399,7 +403,7 @@ class UsersController extends Controller
    */
   public function setpermissionprocess(Request $request, User $user)
   {
-    if(auth()->user()->id == $user->id){
+    if (Auth::user()->id == $user->id) {
       abort(403);
     }
     if (Permission::can($this->menulabel, 'set-permission') !== true) {
@@ -409,6 +413,21 @@ class UsersController extends Controller
     try {
       // Bersihkan dulu data lama untuk role ini
       DB::table('permissions_access_user')->where('user_id', operator: $user->id)->delete();
+
+      ActivityLog::create([
+        'user_id'     => Auth::user()->id,
+        'event'       => 'set_permission',
+        'model_type'  => null,
+        'model_id'    => null,
+        'description' => 'Hapus Izin Akses User pada ' . $user->name,
+        'properties'  => ['user_data' => [
+          'name' => $user->name,
+          'username' => $user->username,
+          'email' => $user->email,
+        ]],
+        'ip_address'  => $request->ip(),
+        'user_agent'  => $request->userAgent(),
+      ]);
 
       // Loop dan insert data baru
       if ($request->has('permissions')) {
@@ -423,6 +442,21 @@ class UsersController extends Controller
             ]);
           }
         }
+
+        ActivityLog::create([
+          'user_id'     => Auth::user()->id,
+          'event'       => 'set_permission',
+          'model_type'  => null,
+          'model_id'    => null,
+          'description' => 'Perubahan Izin Akses User pada ' . $user->name,
+          'properties'  => array_merge(['user_data' => [
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => $user->email,
+          ]], $request->input('permissions')),
+          'ip_address'  => $request->ip(),
+          'user_agent'  => $request->userAgent(),
+        ]);
       }
 
       $urlIndex = route('page.users.set-permission', ['user' => $user->id]);
@@ -434,5 +468,24 @@ class UsersController extends Controller
       Log::error('Gagal menyimpan: ' . $th->getMessage());
       return redirect()->back()->with("warning", $th->getMessage());
     }
+  }
+  /**
+   * Summary of searchUsers
+   * @param \Illuminate\Http\Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function searchUsers(Request $request)
+  {
+    $query = $request->get('q');
+
+    $users = User::query()->when($query, fn($q) => $q->where('name', 'like', "%$query%"))->limit(10)
+      ->get();
+
+    return response()->json([
+      'items' => $users->map(fn($user) => [
+        'id' => $user->name,
+        'text' => $user->name,
+      ])
+    ]);
   }
 }

@@ -61,8 +61,8 @@ class RolesController extends Controller
   protected function columns()
   {
     return [
-      'name' =>  ['label' => 'Nama', 'search' => true, 'type' => 'input', 'sort' => true],
-      'action' =>  ['label' => 'Aksi', 'width' => 100, 'search' => false, 'sort' => false],
+      'name' =>  ['label' => 'Nama', 'column' => true, 'search' => true, 'type' => 'input', 'sort' => true],
+      'action' =>  ['label' => 'Aksi', 'column' => true, 'width' => 100, 'search' => false, 'sort' => false],
     ];
   }
   /**
@@ -72,7 +72,7 @@ class RolesController extends Controller
   protected function query($request)
   {
     // Ambil kolom yang akan ditampilkan
-    $selectFields = array_keys($this->columns());
+    $selectFields = array_keys(collect($this->columns())->where('column', true)->toArray());
     $selectFields = array_merge(['id'], $selectFields);
     // per page
     $this->perpage = $request->input('perpage', $this->perpage);
@@ -87,9 +87,16 @@ class RolesController extends Controller
     if ($request->has('sort') && $request->filled('sort')) {
       $orderby = $request->has('orderby') && $request->filled('orderby') ? $request->orderby : 'created_at';
       $query->orderBy($orderby, $request->sort);
+    } else {
+      $query->orderBy('created_at', 'asc');
     }
 
     $paginated = $query->paginate($this->perpage)->appends($request->except('page'));
+    if ($paginated->currentPage() > $paginated->lastPage()) {
+      $request->merge(['page' => $paginated->lastPage()]);
+      $paginated = $query->paginate($this->perpage)->appends($request->except('page'));
+    }
+
     /**
      * Tulisa ulang isi data
      * Transform hasil (misal, tambahkan tombol aksi dll)
@@ -105,13 +112,13 @@ class RolesController extends Controller
           'label' => 'Ubah',
           'icon' => 'trash',
           'url' => $fullUrlEdit,
-          'enable' => (strtolower($q->name) == 'administrator')? false: Permission::can($this->menulabel, $this->access['edit'])
+          'enable' => (strtolower($q->name) == 'administrator') ? false : Permission::can($this->menulabel, $this->access['edit'])
         ],
         'delete' => [
           'label' => 'Hapus',
           'icon' => 'square-pen',
           'url' => $fullUrlDestroy,
-          'enable' => (strtolower($q->name) == 'administrator')? false: Permission::can($this->menulabel, 'delete')
+          'enable' => (strtolower($q->name) == 'administrator') ? false : Permission::can($this->menulabel, 'delete')
         ]
       ];
       $q->action = view('smjlabscore::crud.action', ['data' => $data])->render();
@@ -176,7 +183,7 @@ class RolesController extends Controller
   protected function requestValidation($request, $id = null)
   {
     $request->validate([
-      'name' => ['required', 'string', 'min:3', 'max:100',Rule::unique('roles', 'name')->ignore($id, 'id')]
+      'name' => ['required', 'string', 'min:3', 'max:100', Rule::unique('roles', 'name')->ignore($id, 'id')]
     ], [], [
       'name' => 'Role/Peran',
     ]);
@@ -270,5 +277,24 @@ class RolesController extends Controller
       Log::error('Gagal menghapus: ' . $th->getMessage());
       return redirect()->back()->with("warning", $th->getMessage());
     }
+  }
+  /**
+   * Summary of searchRoles
+   * @param \Illuminate\Http\Request $request
+   * @return \Illuminate\Http\JsonResponse
+   */
+  public function searchRoles(Request $request)
+  {
+    $query = $request->get('q');
+
+    $users = Role::query()->when($query, fn($q) => $q->where('name', 'like', "%$query%"))->limit(10)
+      ->get();
+
+    return response()->json([
+      'items' => $users->map(fn($user) => [
+        'id' => $user->name,
+        'text' => $user->name,
+      ])
+    ]);
   }
 }

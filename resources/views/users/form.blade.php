@@ -28,7 +28,7 @@
                     $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
                 @endphp
                 <a href="{{ $fullUrl }}" class="btn btn-link text-muted d-flex align-items-center text-decoration-none "><i
-                        data-lucide="arrow-left" class="lucide-sm me-1"></i> Kembai</a>
+                        data-lucide="arrow-left" class="lucide-sm me-1"></i> Kembali</a>
             </div>
         </div>
 
@@ -107,7 +107,7 @@
                             $df = ($type == 'edit')? $form->roles->first()->id : old('role');
                             $valrole =  old('role',$df);
                         @endphp
-                        <select class="form-select" id="role" name="role">
+                        <select class="form-select tom-select p-0 border-0" id="role" name="role">
                             <option value="">Pilih Peran</option>
                             @foreach ($role as $k => $v)
                                 <option value="{{ $k }}" {{$valrole == $k? 'selected' : ''}}>{{ $v }}</option>

@@ -5,7 +5,9 @@
 @endsection
 
 
-@section('namespace'){{ Str::slug('Halaman '.$title) }}@endsection
+@section('namespace')
+    {{ Str::slug('Halaman ' . $title) }}
+@endsection
 
 @php
     $includejs = 'crud';
@@ -26,14 +28,14 @@
             <div class="ms-auto d-flex gap-2">
                 @php
                     $activefilter = 0;
-                    $activesort=0;
+                    $activesort = 0;
                     $filtera = request()->input('filter', []);
                     foreach ($filtera as $c) {
                         if (!empty($c)) {
                             $activefilter++;
                         }
                     }
-                    $activesort = !empty(request()->sort)? 1 : 0;
+                    $activesort = !empty(request()->sort) ? 1 : 0;
                 @endphp
                 @if ($activefilter > 0)
                     <span class="badge  text-muted d-flex align-items-center "><i data-lucide="funnel"
@@ -51,7 +53,6 @@
 
         <div class="card-body p-0 mb-0">
 
-            
             <div class=" table-responsive mb-0">
 
                 <table class="table table-bordered mb-0">
@@ -59,31 +60,33 @@
                         <tr class="table-light">
                             <td width="20" class="text-center text-muted fw-bolder text-uppercase">No</td>
                             @foreach ($columns as $k => $v)
-                                <td width="{{ array_key_exists('width', $v) ? $v['width'] : '' }}"
-                                    class="text-muted fw-bolder  text-uppercase">
-                                    @if (array_key_exists('sort', $v) && $v['sort'])
-                                        @php
-                                            $urlsort = request()->url();
-                                            $urlquery = request()->query();
-                                            $urlquery['sort'] =
-                                                request()->query('sort', 'asc') === 'asc' ? 'desc' : 'asc';
-                                            $urlquery['orderby'] = $k;
-                                            $fullUrl = count($urlquery)
-                                                ? $urlsort . '?' . http_build_query($urlquery)
-                                                : $urlsort;
-                                        @endphp
-                                        <a href="{{ $fullUrl }}"
-                                            class="text-decoration-none text-muted d-flex align-items-center">
-                                            @if (request('orderby') === $k)
-                                                <i data-lucide="{{ request('sort', 'asc') === 'desc' ? 'move-up' : 'move-down' }}"
-                                                    class="lucide-sm me-1 text-muted float-end"></i>
-                                            @endif
+                                @if ($v['column'])
+                                    <td width="{{ array_key_exists('width', $v) ? $v['width'] : '' }}"
+                                        class="text-muted fw-bolder  text-uppercase">
+                                        @if (array_key_exists('sort', $v) && $v['sort'])
+                                            @php
+                                                $urlsort = request()->url();
+                                                $urlquery = request()->query();
+                                                $urlquery['sort'] =
+                                                    request()->query('sort', 'asc') === 'asc' ? 'desc' : 'asc';
+                                                $urlquery['orderby'] = $k;
+                                                $fullUrl = count($urlquery)
+                                                    ? $urlsort . '?' . http_build_query($urlquery)
+                                                    : $urlsort;
+                                            @endphp
+                                            <a href="{{ $fullUrl }}"
+                                                class="text-decoration-none text-muted d-flex align-items-center">
+                                                @if (request('orderby') === $k)
+                                                    <i data-lucide="{{ request('sort', 'asc') === 'desc' ? 'move-up' : 'move-down' }}"
+                                                        class="lucide-sm me-1 text-muted float-end"></i>
+                                                @endif
+                                                {{ $v['label'] }}
+                                            </a>
+                                        @else
                                             {{ $v['label'] }}
-                                        </a>
-                                    @else
-                                        {{ $v['label'] }}
-                                    @endif
-                                </td>
+                                        @endif
+                                    </td>
+                                @endif
                             @endforeach
                         </tr>
                     </thead>
@@ -91,18 +94,19 @@
                         @if ($query->total() > 0)
                             @foreach ($query as $k => $v)
                                 <tr>
-                                    <td class="text-center fw-light" data-label="No">
-                                        {{ ($query->currentPage() - 1) * $query->perPage() + $loop->iteration }}</td>
+                                    <td class="text-center fw-light" data-label="No"> {{ ($query->currentPage() - 1) * $query->perPage() + $loop->iteration }}</td>
                                     @foreach ($columns as $kk => $vv)
-                                        <td class="fw-light" data-label="{{ $vv['label'] }}">
-                                            {!! $v->{$kk} !!}
-                                        </td>
+                                        @if ($vv['column'])
+                                            <td class="fw-light" data-label="{{ $vv['label'] }}">
+                                                {!! $v->{$kk} !!}
+                                            </td>
+                                        @endif
                                     @endforeach
                                 </tr>
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="{{ count($columns) + 1 }}" class="text-muted text-center"> Belum ada data</td>
+                                <td colspan="{{ collect($columns)->where('column', true)->count() + 1 }}" class="text-muted"> Belum ada data</td>
                             </tr>
                         @endif
                     </tbody>

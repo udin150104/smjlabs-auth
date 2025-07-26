@@ -7,6 +7,7 @@ use Smjlabs\Core\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Smjlabs\Core\Models\ActivityLog;
 use Smjlabs\Core\Http\Helpers\Permission;
 
 class IzinAksesController extends Controller
@@ -21,7 +22,7 @@ class IzinAksesController extends Controller
     if (Permission::can('Izin Akses', 'access') !== true) {
       abort(403);
     }
-    
+
     $title = "Izin Akses";
     $breadcrumb = [
       (object)['url' => '#', 'label' => 'Konfigurasi'],
@@ -67,6 +68,19 @@ class IzinAksesController extends Controller
       // Bersihkan dulu data lama untuk role ini
       DB::table('permissions_access_role')->where('role_id', $roleId)->delete();
 
+      ActivityLog::create([
+        'user_id'     => auth()->user()->id,
+        'event'       => 'set_permission',
+        'model_type'  => null,
+        'model_id'    => null,
+        'description' => 'Hapus Izin Akses Pada role/peran ' . $role->name,
+        'properties'  => ['role_data' => [
+          'name' => $role->name,
+        ]],
+        'ip_address'  => $request->ip(),
+        'user_agent'  => $request->userAgent(),
+      ]);
+
       // Loop dan insert data baru
       if ($request->has('permissions')) {
         foreach ($request->input('permissions') as $menu => $accessData) {
@@ -80,6 +94,19 @@ class IzinAksesController extends Controller
             ]);
           }
         }
+
+        ActivityLog::create([
+          'user_id'     => auth()->user()->id,
+          'event'       => 'set_permission',
+          'model_type'  => null,
+          'model_id'    => null,
+          'description' => 'Perubahan Izin Akses Pada role/peran ' . $role->name,
+          'properties'  => array_merge(['role_data' => [
+            'name' => $role->name,
+          ]], $request->input('permissions')),
+          'ip_address'  => $request->ip(),
+          'user_agent'  => $request->userAgent(),
+        ]);
       }
 
       $urlIndex = route('page.izin-akses.index');

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 use Smjlabs\Core\Http\Middleware\IsGuest;
+use Smjlabs\Core\Http\Middleware\LogPageAccess;
 use Smjlabs\Core\Http\Middleware\IsAuthenticated;
 use Smjlabs\Core\Http\Controllers\LoginController;
 use Smjlabs\Core\Http\Controllers\RolesController;
@@ -12,6 +13,7 @@ use Smjlabs\Core\Http\Controllers\ProfileController;
 use Smjlabs\Core\Http\Controllers\DashboardController;
 use Smjlabs\Core\Http\Controllers\IzinAksesController;
 use Smjlabs\Core\Http\Middleware\ContentSecurityPolicy;
+use Smjlabs\Core\Http\Controllers\LogsActivityController;
 
 /**
  * Load asset local packages assets
@@ -69,14 +71,31 @@ Route::group([
     'middleware' => [
         'web',
         ContentSecurityPolicy::class,
-        IsAuthenticated::class
+        IsAuthenticated::class,
+        LogPageAccess::class
     ]
 ], function () {
     Route::resource('dashboard', DashboardController::class)->only(['index']);
     Route::resource('profile', ProfileController::class)->only(['index','edit','update']);
     Route::get('users/{user}/set-permissions', [UsersController::class,'setpermission'])->name('users.set-permission');
     Route::post('users/{user}/set-permissions', [UsersController::class,'setpermissionprocess'])->name('users.set-permission-process');
-    Route::resource('users', UsersController::class);
-    Route::resource('roles', RolesController::class);
+    Route::resource('users', UsersController::class)->except(['show']);
+    Route::resource('roles', RolesController::class)->except(['show']);
     Route::resource('izin-akses', IzinAksesController::class)->only(['index','store']);
+    Route::resource('logactivity',LogsActivityController::class)->only(['index','show']);
+});
+
+// ==== API pendukung ==== //
+Route::group([
+    'prefix' => 'api-form',
+    'as' => 'api-form.',
+    'middleware' => [
+        'web',
+        ContentSecurityPolicy::class,
+        IsAuthenticated::class,
+    ]
+], function () {
+    Route::get('users', [UsersController::class, 'searchUsers']);
+    Route::get('role', [RolesController::class, 'searchRoles']);
+    Route::get('logactivity', [LogsActivityController::class, 'searchType']);
 });

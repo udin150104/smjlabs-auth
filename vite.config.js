@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import path from 'path';
+import { viteStaticCopy } from 'vite-plugin-static-copy'; // 🆕 Tambahkan ini
 
 export default defineConfig({
   root: '.',

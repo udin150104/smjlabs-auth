@@ -30,7 +30,7 @@
                     $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
                 @endphp
                 <a href="{{ $fullUrl }}" class="btn btn-link text-muted d-flex align-items-center text-decoration-none "><i
-                        data-lucide="arrow-left" class="lucide-sm me-1"></i> Kembai</a>
+                        data-lucide="arrow-left" class="lucide-sm me-1"></i> Kembali</a>
             </div>
         </div>
 

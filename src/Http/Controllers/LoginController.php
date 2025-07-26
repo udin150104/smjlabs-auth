@@ -4,6 +4,7 @@ namespace Smjlabs\Core\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Smjlabs\Core\Models\User;
+use Illuminate\Auth\Events\Failed;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,6 +35,7 @@ class LoginController extends Controller
     $user = User::where($loginField, $credentials['email'])->first();
 
     if (!$user) {
+      event(new Failed('web', null, $credentials)); 
       return back()->with('error', 'Akun tidak ditemukan.')->withInput();
     }
 
@@ -49,6 +51,7 @@ class LoginController extends Controller
       $request->session()->regenerate();
       return redirect()->intended(config('smjlabscore.redirect_after_login'));
     }
+    event(new Failed('web', $user, $credentials));
     return redirect()->route('acc.login.index')->with('error', 'Inisial akses atau kata sandi salah. silahkan coba lagi')->withInput();
   }
   /**

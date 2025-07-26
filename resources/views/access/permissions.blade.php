@@ -41,7 +41,7 @@
                         <span>Terapkan izin akses kepada peran : </span>
                     </label>
 
-                    <select class="form-select" name="role" id="role">
+                    <select class="form-select tom-select p-0 border-0" name="role" id="role">
                         <option value="">Pilih Peran</option>
                         @foreach ($role as $kk => $vv)
                             <option value="{{ $vv->name }}" {{ request('role') == $vv->name ? 'selected' : '' }}>

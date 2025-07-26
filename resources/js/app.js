@@ -2,6 +2,14 @@
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 
+import TomSelect from 'tom-select';
+window.TomSelect = TomSelect;
+
+import { TempusDominus } from '@eonasdan/tempus-dominus';
+window.TempusDominus = TempusDominus;
+import * as luxon from 'luxon';
+window.luxon = luxon;
+
 import barba from '@barba/core';
 import gsap from 'gsap';
 import { createIcons, icons } from 'lucide';
@@ -118,6 +126,92 @@ function initUI() {
       }
     }
   });
+
+  // Load Tom Select
+  document.querySelectorAll('.tom-select-ajax').forEach(function (el) {
+    const select = new TomSelect(el, {
+      valueField: 'id',
+      labelField: 'text',
+      searchField: 'text',
+      loadThrottle: 300,
+      load: function (query, callback) {
+        const origin = window.location.origin;
+        const url = el.dataset.url;
+        fetch(`${origin}/${url}?q=${encodeURIComponent(query)}`)
+          .then(response => response.json())
+          .then(json => callback(json.items))
+          .catch(() => callback());
+      },
+      render: {
+        no_results: function (data, escape) {
+          return `<div class="no-results text-muted">Hasil tidak ditemukan</div>`;
+        }
+      }
+    });
+
+    select.load('');
+    // ⛳ Trigger load saat dropdown dibuka
+    select.on('dropdown_open', function () {
+      if (this.options.length === 0) {
+        this.load('');
+      }
+    });
+  });
+  document.querySelectorAll('.tom-select').forEach(function (el) {
+    const select = new TomSelect(el, {
+      valueField: 'id',
+      labelField: 'text',
+      searchField: 'text',
+    });
+  });
+  // Load datepicker
+  document.querySelectorAll('.datepicker').forEach(el => {
+    new TempusDominus(el, {
+      display: {
+        icons: {
+          time: 'bi bi-clock',
+          date: 'bi bi-calendar',
+          up: 'bi bi-chevron-up',
+          down: 'bi bi-chevron-down',
+          previous: 'bi bi-chevron-left',
+          next: 'bi bi-chevron-right',
+          today: 'bi bi-calendar-check',
+          clear: 'bi bi-trash',
+          close: 'bi bi-x-lg',
+        },
+        buttons: {
+          today: true,
+          clear: true,
+          close: true
+        },
+        components: {
+          calendar: true,
+          date: true,
+          month: true,
+          year: true,
+          decades: true,
+          clock: false,
+          hours: false,
+          minutes: false,
+          seconds: false,
+        }
+      },
+      localization: {
+        locale: 'id',
+        startOfTheWeek: 1,
+        format: 'dd/MM/yyyy',
+        today: 'Hari ini',
+        clear: 'Bersihkan',
+        close: 'Tutup',
+        selectDate: 'Pilih tanggal',
+        selectMonth: 'Pilih bulan',
+        selectYear: 'Pilih tahun',
+        nextMonth: 'Bulan berikutnya',
+        previousMonth: 'Bulan sebelumnya',
+      }
+    });
+  });
+  // createIcons({ icons });
 }
 
 // === Modular import halaman berdasarkan <body data-js="..."> ===
@@ -152,14 +246,21 @@ barba.init({
       document.getElementById('barba-loader').classList.add('d-flex');
 
       // Tunggu sedikit supaya loader muncul (opsional)
-      await new Promise(resolve => setTimeout(resolve, 300));
+      await new Promise(resolve => setTimeout(resolve, 200));
     },
 
     async enter(data) {
-      initUI();
       // Sembunyikan loader
       document.getElementById('barba-loader').classList.remove('d-flex');
       document.getElementById('barba-loader').classList.add('d-none');
+
+      // const jsName = nextContainer.dataset.js;
+      // console.log(jsName)
+
+      // initUI();
+      // initBarbaFormSubmit();
+      // loadPageModule(jsName);
+      // createIcons({ icons });
     },
 
     async once(data) {
@@ -254,10 +355,10 @@ barba.hooks.after((data) => {
 
   const jsName = nextContainer.dataset.js;
 
-  createIcons({ icons });
   initUI();
-  loadPageModule(jsName);
   initBarbaFormSubmit();
+  loadPageModule(jsName);
+  createIcons({ icons });
 });
 // Barba harus sudah diinisialisasi sebelumnya
 document.getElementById('refresh-page')?.addEventListener('click', function (e) {
@@ -266,7 +367,7 @@ document.getElementById('refresh-page')?.addEventListener('click', function (e) 
 });
 
 // Inisialisasi saat pertama kali load (belum lewat Barba)
-createIcons({ icons });
 initUI();
-loadPageModule(document.getElementById("content").dataset.js);
 initBarbaFormSubmit();
+loadPageModule(document.getElementById("content").dataset.js);
+createIcons({ icons });

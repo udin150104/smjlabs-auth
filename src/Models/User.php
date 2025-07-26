@@ -3,10 +3,12 @@
 namespace Smjlabs\Core\Models;
 
 use App\Models\User as UserBaseModel;
+use Smjlabs\Core\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends UserBaseModel
 {
+  use LogsActivity;
   /**
    * Summary of __construct
    */
@@ -43,5 +45,24 @@ class User extends UserBaseModel
   public function hasRole(string $roleName): bool
   {
     return $this->roles()->where('name', $roleName)->exists();
+  }
+  /**
+   * Summary of shouldLog
+   * @param mixed $event
+   * @return bool
+   */
+  public function shouldLog($event): bool
+  {
+    // Anda bisa atur logika berdasarkan event, atribut, atau kondisi model
+    return in_array($event, ['created', 'updated', 'deleted']);
+  }
+  /**
+   * Summary of getLoggableAttributes
+   * @return string[]
+   */
+  public function getLoggableAttributes(): array
+  {
+    // hanya field ini yang akan dicatat
+    return ['name', 'email','username','is_active']; 
   }
 }
