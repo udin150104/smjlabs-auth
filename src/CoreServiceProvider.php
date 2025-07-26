@@ -37,8 +37,8 @@ class CoreServiceProvider extends ServiceProvider
     // use on root web.php :
     // require base_path('routes/smjlabs-core.php');
     // php artisan vendor:publish --tag=smjlabs-core-routes
-
-    $this->publishes([__DIR__ . '/../routes/web.php' => base_path('routes/smjlabs-core.php')], 'smjlabs-core-routes');
+    // $this->publishes([__DIR__ . '/../routes/web.php' => base_path('routes/smjlabs-core.php')], 'smjlabs-core-routes');
+    
     // blade directive
     Blade::directive('smjlabs_core_assets', function ($path) {
       return "<?php echo url('/smjlabs-core-assets/' . $path); ?>";

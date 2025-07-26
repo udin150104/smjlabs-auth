@@ -7,3 +7,7 @@
   - penambahan menu roles dan fitur crud role
   - rename package to smjlabs/core
   - change readme
+
+### 2025-07-26
+  - add log aktivitas user
+  - perbaikan crud 
