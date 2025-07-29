@@ -2,6 +2,7 @@
 
 namespace Smjlabs\Core;
 
+use Illuminate\Routing\Router;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Logout;
@@ -11,6 +12,7 @@ use Illuminate\Support\ServiceProvider;
 use Smjlabs\Core\Http\Helpers\Permission;
 use Smjlabs\Core\Listeners\LogFailedLogin;
 use Smjlabs\Core\Listeners\LogLoginLogout;
+use Smjlabs\Core\Http\Middleware\Permission as MiddlewarePermission;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -46,6 +48,11 @@ class CoreServiceProvider extends ServiceProvider
     Blade::if('permcan', function ($label, $access) {
       return Permission::can($label, $access);
     });
+
+    // middleware bawaan
+    $router = $this->app->make(Router::class);
+    $router->aliasMiddleware('perms', MiddlewarePermission::class);
+
   }
 
   public function register()

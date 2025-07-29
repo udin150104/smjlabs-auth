@@ -24,5 +24,15 @@ export default defineConfig({
         }
       }
     }
-  }
+  },
+  plugins: [
+    viteStaticCopy({
+      targets: [
+        {
+          src: 'node_modules/bootstrap-icons/font/fonts/*',
+          dest: 'fonts'
+        }
+      ]
+    })
+  ]
 });

@@ -13,7 +13,7 @@
 @endphp
 
 @section('content')
-    @include('smjlabscore::crud.breadcrumb')
+    @include('smjlabscore::modules.breadcrumb')
     <h6 class=" display-6 mb-3 text-muted ">{{ $title }}</h6>
 
     @include('smjlabscore::alert')

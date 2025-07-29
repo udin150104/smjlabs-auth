@@ -77,8 +77,8 @@ Route::group([
 ], function () {
     Route::resource('dashboard', DashboardController::class)->only(['index']);
     Route::resource('profile', ProfileController::class)->only(['index','edit','update']);
-    Route::get('users/{user}/set-permissions', [UsersController::class,'setpermission'])->name('users.set-permission');
-    Route::post('users/{user}/set-permissions', [UsersController::class,'setpermissionprocess'])->name('users.set-permission-process');
+    Route::middleware(['perms:User:set-permission'])->get('users/{user}/set-permissions', [UsersController::class,'setpermission'])->name('users.set-permission');
+    Route::middleware(['perms:User:set-permission'])->post('users/{user}/set-permissions', [UsersController::class,'setpermissionprocess'])->name('users.set-permission-process');
     Route::resource('users', UsersController::class)->except(['show']);
     Route::resource('roles', RolesController::class)->except(['show']);
     Route::resource('izin-akses', IzinAksesController::class)->only(['index','store']);

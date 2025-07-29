@@ -5,15 +5,16 @@ namespace Smjlabs\Core\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Smjlabs\Core\Models\Role;
-use Illuminate\Validation\Rule;
+use Smjlabs\Core\Modules\Grid;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
-use Smjlabs\Core\Traits\StaticLists;
+use Smjlabs\Core\Modules\BaseController;
+use Smjlabs\Core\Traits\StaticResources;
 use Smjlabs\Core\Http\Helpers\Permission;
+use Smjlabs\Core\Http\Requests\RoleRequest;
 
-class RolesController extends Controller
+class RolesController extends BaseController
 {
-  use StaticLists;
+  use StaticResources;
   /**
    * Summary of title
    * @var string
@@ -24,25 +25,15 @@ class RolesController extends Controller
    * @var string
    */
   protected $menulabel = 'Role';
-  /**
-   * Summary of access
-   * @var array
-   */
-  protected $access = [
-    'index' => 'access',
-    'create' => 'create',
-    'edit' => 'edit',
-  ];
-  /**
-   * Summary of perpage
-   * @var int
-   */
-  protected $perpage = 10;
-  /**
-   * Summary of pagination
-   * @var array
-   */
-  protected $pagination = [10, 25, 50];
+
+  public function __construct()
+  {
+    $this->middleware("perms:{$this->menulabel}:access")->only(['index']);
+    $this->middleware("perms:{$this->menulabel}:create")->only(['create', 'store']);
+    $this->middleware("perms:{$this->menulabel}:edit")->only(['edit', 'update']);
+    $this->middleware("perms:{$this->menulabel}:delete")->only(['destroy']);
+  }
+
   /**
    * Summary of breadcrumbs
    * @return object[]
@@ -55,101 +46,58 @@ class RolesController extends Controller
     ];
   }
   /**
-   * Summary of columns
-   * @return array{action: array{label: string, search: bool, sort: bool, width: int, email: array{label: string, search: bool, sort: bool, type: string, width: int}, name: array{label: string, search: bool, sort: bool, type: string}, username: array{label: string, search: bool, sort: bool, type: string, width: int}}}
+   * Summary of grid
+   * @param \Illuminate\Http\Request $request
+   * @return Grid
    */
-  protected function columns()
+  protected function grid(Request $request)
   {
-    return [
+    $grid = new Grid(new Role());
+    /** add button link */
+    $grid->setButton([
+      'add' => ['label' => 'Tambah', 'type' => 'link', 'icon' => 'plus', 'enable' => Permission::can($this->menulabel, 'create'), 'url' => route('page.roles.create')]
+    ]);
+    /** Filter */
+    $filters = $request->input('filter', []);
+    $grid->filterQuery(function ($query) use ($filters) {
+      if (!empty($filters['name'])) {
+        $query->where("name", 'like', '%' . $filters['name'] . '%');
+      }
+    });
+    /** Sorting */
+    $grid->sortQuery(function ($query) use ($request) {
+      $orderby = $request->has('orderby') && $request->filled('orderby') ? $request->orderby : 'created_at';
+      $sort = $request->has('sort') && $request->filled('sort') ? $request->sort : 'asc';
+      $query->orderBy($orderby, $sort);
+    });
+    /** Column to display */
+    $grid->setColumn([
       'name' =>  ['label' => 'Nama', 'column' => true, 'search' => true, 'type' => 'input', 'sort' => true],
       'action' =>  ['label' => 'Aksi', 'column' => true, 'width' => 100, 'search' => false, 'sort' => false],
-    ];
-  }
-  /**
-   * Summary of query
-   * @param mixed $request
-   */
-  protected function query($request)
-  {
-    // Ambil kolom yang akan ditampilkan
-    $selectFields = array_keys(collect($this->columns())->where('column', true)->toArray());
-    $selectFields = array_merge(['id'], $selectFields);
-    // per page
-    $this->perpage = $request->input('perpage', $this->perpage);
-    // select berdasarkan colum yang ditampilkan
-    $query = Role::select($selectFields);
-    /** FILTER */
-    $filters = $request->input('filter', []);
-    if (!empty($filters['name'])) {
-      $query->where("name", 'like', '%' . $filters['name'] . '%');
+    ]);
+    if ($request->has('perpage') && $request->filled('perpage')) {
+      $grid->setPerPage($request->get('perpage'));
     }
-    /** SORTING */
-    if ($request->has('sort') && $request->filled('sort')) {
-      $orderby = $request->has('orderby') && $request->filled('orderby') ? $request->orderby : 'created_at';
-      $query->orderBy($orderby, $request->sort);
-    } else {
-      $query->orderBy('created_at', 'asc');
-    }
-
-    $paginated = $query->paginate($this->perpage)->appends($request->except('page'));
-    if ($paginated->currentPage() > $paginated->lastPage()) {
-      $request->merge(['page' => $paginated->lastPage()]);
-      $paginated = $query->paginate($this->perpage)->appends($request->except('page'));
-    }
-
-    /**
-     * Tulisa ulang isi data
-     * Transform hasil (misal, tambahkan tombol aksi dll)
-     */
-    $paginated->getCollection()->transform(function ($q) use ($filters) {
-      $urledit = route('page.roles.edit', ['role' => $q->id]);
-      $urldestroy = route('page.roles.destroy', ['role' => $q->id]);
-      $urlquery = request()->query();
-      $fullUrlEdit = count($urlquery) ? $urledit . '?' . http_build_query($urlquery) : $urledit;
-      $fullUrlDestroy = count($urlquery) ? $urldestroy . '?' . http_build_query($urlquery) : $urldestroy;
+    $grid->setManipulationColumns(null, function ($item) {
       $data = [
         'edit' => [
           'label' => 'Ubah',
-          'icon' => 'trash',
-          'url' => $fullUrlEdit,
-          'enable' => (strtolower($q->name) == 'administrator') ? false : Permission::can($this->menulabel, $this->access['edit'])
+          'icon' => 'square-pen',
+          'url' => $this->generateUrlWithRequest('page.roles.edit', ['role' => $item->id]),
+          'enable' => (strtolower($item->name) == 'administrator') ? false : Permission::can($this->menulabel, 'edit')
         ],
         'delete' => [
           'label' => 'Hapus',
           'icon' => 'square-pen',
-          'url' => $fullUrlDestroy,
-          'enable' => (strtolower($q->name) == 'administrator') ? false : Permission::can($this->menulabel, 'delete')
+          'url' => $this->generateUrlWithRequest('page.roles.destroy', ['role' => $item->id]),
+          'enable' => (strtolower($item->name) == 'administrator') ? false : Permission::can($this->menulabel, 'delete')
         ]
       ];
-      $q->action = view('smjlabscore::crud.action', ['data' => $data])->render();
-      return $q;
+      $item->action = view('smjlabscore::modules.grid.action', ['data' => $data])->render();
+      return $item;
     });
 
-    return $paginated;
-  }
-  /**
-   * Summary of grid
-   * @param \Illuminate\Http\Request $request
-   * @return array{breadcrumb: object[], buttons: array, columns: array, pagination: array, query: mixed, title: string}
-   */
-  protected function grid(Request $request)
-  {
-    if ($request->has('perpage') && $request->filled('perpage')) {
-      $this->perpage = $request->get('perpage');
-    }
-
-    return [
-      'title' => $this->title,
-      'views' => 'smjlabscore::crud.index',
-      'breadcrumb' => $this->breadcrumbs(),
-      'columns' => $this->columns(),
-      'perpage' => $this->perpage,
-      'pagination' => $this->pagination,
-      'query' => $this->query($request),
-      'buttons' => [
-        'add' => ['label' => 'Tambah', 'type' => 'link', 'icon' => 'plus', 'enable' => Permission::can($this->menulabel, $this->access['create']), 'url' => route('page.roles.create')]
-      ]
-    ];
+    return $grid;
   }
   /**
    * Summary of form
@@ -159,6 +107,9 @@ class RolesController extends Controller
    */
   protected function form(Request $request, $id = null)
   {
+    if(!is_null($id) && $id == 1){
+      abort(403);
+    }
     $breadcrumb = $this->breadcrumbs();
     $role = [];
     if (is_null($id)) {
@@ -175,46 +126,19 @@ class RolesController extends Controller
     ];
   }
   /**
-   * Summary of requestValidation
-   * @param mixed $request
-   * @param mixed $id
-   * @return void
-   */
-  protected function requestValidation($request, $id = null)
-  {
-    $request->validate([
-      'name' => ['required', 'string', 'min:3', 'max:100', Rule::unique('roles', 'name')->ignore($id, 'id')]
-    ], [], [
-      'name' => 'Role/Peran',
-    ]);
-  }
-  /**
    * Summary of store
-   * @param \Illuminate\Http\Request $request
+   * @param \Smjlabs\Core\Http\Requests\RoleRequest $request
    * @return \Illuminate\Http\RedirectResponse
    */
-  public function store(Request $request)
+  public function store(RoleRequest $request)
   {
-    if (Permission::can($this->menulabel, $this->access['create']) !== true) {
-      abort(403);
-    }
-
-    $this->requestValidation($request);
-
     try {
       $data = [
         'name' => $request->input('name'),
         'slug' => Str::slug($request->input('name'))
       ];
       Role::create($data);
-
-      $currentRoute = request()->route()->getName();
-      $indexRoute = preg_replace('/\.(create|edit|show|update|destroy)$/', '.index', $currentRoute);
-      $urlIndex = route($indexRoute);
-      $urlquery = request()->query();
-      $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
-
-      return redirect()->to($fullUrl)->with("success", "Data berhasil disimpan");
+      return redirect()->to( $this->generateUrlWithRequest('page.roles.index'))->with("success", "Data berhasil disimpan");
     } catch (\Throwable $th) {
       Log::error('Gagal menyimpan: ' . $th->getMessage());
       return redirect()->back()->with("warning", $th->getMessage());
@@ -222,18 +146,15 @@ class RolesController extends Controller
   }
   /**
    * Summary of update
-   * @param \Illuminate\Http\Request $request
+   * @param \Smjlabs\Core\Http\Requests\RoleRequest $request
    * @param \Smjlabs\Core\Models\Role $role
    * @return \Illuminate\Http\RedirectResponse
    */
-  public function update(Request $request, Role $role)
+  public function update(RoleRequest $request, Role $role)
   {
-    if (Permission::can($this->menulabel, $this->access['edit']) !== true) {
-      abort(403);
+    if($role->id == 1){
+      abort(404);
     }
-
-    $this->requestValidation($request, $role->id);
-
     try {
       $data = [
         'name' => $request->input('name'),
@@ -241,12 +162,7 @@ class RolesController extends Controller
       ];
       $role->update($data);
 
-      $currentRoute = request()->route()->getName();
-      $indexRoute = preg_replace('/\.(create|edit|show|update|destroy)$/', '.index', $currentRoute);
-      $urlIndex = route($indexRoute);
-      $urlquery = request()->query();
-      $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
-      return redirect()->to($fullUrl)->with("success", "Data berhasil diperbaharui");
+      return redirect()->to($this->generateUrlWithRequest('page.roles.index'))->with("success", "Data berhasil diperbaharui");
     } catch (\Throwable $th) {
       Log::error('Gagal memperbaharui: ' . $th->getMessage());
       return redirect()->back()->with("warning", $th->getMessage());
@@ -259,20 +175,13 @@ class RolesController extends Controller
    */
   public function destroy(Role $role)
   {
-    if (Permission::can($this->menulabel, 'delete') !== true) {
-      abort(403);
+    if($role->id == 1){
+      abort(404);
     }
-
     try {
       $role->delete();
 
-      $currentRoute = request()->route()->getName();
-      $indexRoute = preg_replace('/\.(create|edit|show|update|destroy)$/', '.index', $currentRoute);
-      $urlIndex = route($indexRoute);
-      $urlquery = request()->query();
-      $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
-
-      return redirect()->to($fullUrl)->with("success", "Data berhasil dihapus");
+      return redirect()->to($this->generateUrlWithRequest('page.roles.index'))->with("success", "Data berhasil dihapus");
     } catch (\Throwable $th) {
       Log::error('Gagal menghapus: ' . $th->getMessage());
       return redirect()->back()->with("warning", $th->getMessage());

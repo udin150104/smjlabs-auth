@@ -12,7 +12,7 @@
 @endphp
 
 @section('content')
-    @include('smjlabscore::crud.breadcrumb')
+    @include('smjlabscore::modules.breadcrumb')
     @include('smjlabscore::alert')
 
     <div class="card">
@@ -23,9 +23,9 @@
 
             <div class="ms-auto d-flex ">
                 @php
-                    $urlIndex = route('page.users.index');
+                    $url = route('page.users.index');
                     $urlquery = request()->query();
-                    $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
+                    $fullUrl = count($urlquery) ? $url . '?' . http_build_query($urlquery) : $url;
                 @endphp
                 <a href="{{ $fullUrl }}" class="btn btn-link text-muted d-flex align-items-center text-decoration-none "><i
                         data-lucide="arrow-left" class="lucide-sm me-1"></i> Kembali</a>

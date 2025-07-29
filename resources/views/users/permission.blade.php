@@ -8,7 +8,7 @@
 @section('namespace'){{ Str::slug('Halaman ' . $title) }}@endsection
 
 @section('content')
-    @include('smjlabscore::crud.breadcrumb')
+    @include('smjlabscore::modules.breadcrumb')
     @include('smjlabscore::alert')
 
     <div class="card">

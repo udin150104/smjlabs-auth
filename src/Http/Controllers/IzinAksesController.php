@@ -6,23 +6,25 @@ use Illuminate\Http\Request;
 use Smjlabs\Core\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
 use Smjlabs\Core\Models\ActivityLog;
-use Smjlabs\Core\Http\Helpers\Permission;
+use Smjlabs\Core\Modules\BaseController;
+use Smjlabs\Core\Traits\StaticResources;
 
-class IzinAksesController extends Controller
+class IzinAksesController extends BaseController
 {
+  use StaticResources;
+  public function __construct()
+  {
+    $this->middleware("perms:Izin Akses:access")->only(['index']);
+    $this->middleware("perms:Izin Akses:set-permission")->only(['store']);
+  }
+
   /**
    * Summary of index
    * @return \Illuminate\Contracts\View\View
    */
   public function index()
   {
-
-    if (Permission::can('Izin Akses', 'access') !== true) {
-      abort(403);
-    }
-
     $title = "Izin Akses";
     $breadcrumb = [
       (object)['url' => '#', 'label' => 'Konfigurasi'],
@@ -53,14 +55,7 @@ class IzinAksesController extends Controller
    */
   public function store(Request $request)
   {
-    if (Permission::can('Izin Akses', 'set-permission') !== true) {
-      abort(403);
-    }
-    $request->validate([
-      'role' => ['required'],
-    ], [],  [
-      'role' => 'Role/Peran',
-    ]);
+    $request->validate([ 'role' => ['required'], ], [],  [ 'role' => 'Role/Peran' ]);
     try {
       $role = Role::firstOrCreate(['name' => $request->input('role')]);
       $roleId = $role->id;
@@ -108,12 +103,7 @@ class IzinAksesController extends Controller
           'user_agent'  => $request->userAgent(),
         ]);
       }
-
-      $urlIndex = route('page.izin-akses.index');
-      $urlquery = request()->query();
-      $fullUrl = count($urlquery) ? $urlIndex . '?' . http_build_query($urlquery) : $urlIndex;
-
-      return redirect()->to($fullUrl)->with("success", "Izin akses telah diterapkan!");
+      return redirect()->to($this->generateUrlWithRequest('page.izin-akses.index'))->with("success", "Izin akses telah diterapkan!");
     } catch (\Throwable $th) {
       Log::error('Gagal menyimpan: ' . $th->getMessage());
       return redirect()->back()->with("warning", $th->getMessage());

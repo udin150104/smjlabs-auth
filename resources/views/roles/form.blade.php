@@ -12,7 +12,7 @@
 @endphp
 
 @section('content')
-    @include('smjlabscore::crud.breadcrumb')
+    @include('smjlabscore::modules.breadcrumb')
     @include('smjlabscore::alert')
 
     <div class="card">

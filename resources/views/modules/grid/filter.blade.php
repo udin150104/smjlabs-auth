@@ -1,7 +1,5 @@
 @php
     $url = request()->url();
-    $urlQuery = request()->query();
-    $fullUrl = count($urlQuery) ? $url . '?' . http_build_query($urlQuery) : $url;
 @endphp
 
 <div colspan="{{ collect($columns)->where('search', true)->count() + 1 }}"
