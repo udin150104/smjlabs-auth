@@ -11,3 +11,9 @@
 ### 2025-07-26
   - add log aktivitas user
   - perbaikan crud 
+
+### 2025-07-29
+  - penambahan modules
+  - perbaikan middleware
+  - perbaikan scripts
+  

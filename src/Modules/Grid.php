@@ -206,8 +206,8 @@ class Grid
   {
     $model = self::$model;
     $columns = Schema::getColumnListing($model->getTable());
-    $selectFields = array_keys(collect(self::$columns)->toArray());
-    $selectFields = array_merge(['id'], $selectFields);
+    // $selectFields = array_keys(collect(self::$columns)->toArray());
+    // $selectFields = array_merge(['id'], $selectFields);
     $query = $model::select($columns);
 
     $query = self::applyFilterQuery($query);

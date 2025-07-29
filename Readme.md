@@ -86,7 +86,6 @@ Untuk mengecek izin akses menggunakan `@permcan`:
 | [@syahrudinsmj](https://github.com/syahrudinsmj) | 🧑‍💻 Creator, Maintainer & Contributor *(Secondary Account)* |
 
 
-
 ### 📃 Lisensi
 
 Lisensi: **UNLICENSED**
