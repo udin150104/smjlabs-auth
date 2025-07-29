@@ -2,6 +2,9 @@
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 
+import Chart from 'chart.js/auto';
+window.Chart = Chart;
+
 import TomSelect from 'tom-select';
 window.TomSelect = TomSelect;
 
@@ -20,16 +23,19 @@ createIcons({ icons });
 // === Inisialisasi UI Interaktif ===
 function initUI() {
 
-  // Sidebar Toggle
   const toggleBtn = document.getElementById('toggleSidebar');
   const sidebar = document.getElementById('sidebar');
   const mainContent = document.getElementById('mainContent');
   const closeSidebar = document.getElementById('close-sidebar');
 
+  // ⚠️ Cek kalau elemen ada dulu
   if (toggleBtn && sidebar && mainContent) {
-    toggleBtn.addEventListener('click', function () {
-      console.log("clicked");
-      // console.log({ sidebar, mainContent });
+    // Buang semua event listener lama (agar tidak ganda)
+    toggleBtn.replaceWith(toggleBtn.cloneNode(true));
+    const freshToggle = document.getElementById('toggleSidebar');
+
+    freshToggle.addEventListener('click', function () {
+      // console.log('clicked');
 
       if (sidebar.classList.contains('show')) {
         sidebar.classList.remove('show');
@@ -42,7 +48,10 @@ function initUI() {
   }
 
   if (closeSidebar && sidebar && mainContent) {
-    closeSidebar.addEventListener('click', function () {
+    closeSidebar.replaceWith(closeSidebar.cloneNode(true));
+    const freshClose = document.getElementById('close-sidebar');
+
+    freshClose.addEventListener('click', function () {
       if (sidebar.classList.contains('show')) {
         sidebar.classList.remove('show');
         mainContent.classList.add('full');

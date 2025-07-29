@@ -43,6 +43,11 @@ return [
             'access-lists' => ['access'],
             'sub-menu' => [
                 [
+                    'label' => 'Informasi',
+                    'route-name' => 'page.informasi.index',
+                    'access-lists' => ['access'],
+                ],
+                [
                     'label' => 'Log Aktivitas',
                     'route-name' => 'page.logactivity.index',
                     'access-lists' => ['access'],

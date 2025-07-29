@@ -34,7 +34,7 @@ class LogsActivityController extends BaseController
   protected function breadcrumbs()
   {
     return [
-      (object)['url' => '#', 'label' => 'Sistems'],
+      (object)['url' => '#', 'label' => 'Sistem'],
       (object)['url' => '#', 'label' => $this->title]
     ];
   }

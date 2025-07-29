@@ -5,9 +5,7 @@
     Halaman {{ $title }}
 @endsection
 
-@section('namespace')
-    {{ Str::slug('Halaman ' . $title) }}
-@endsection
+@section('namespace'){{ Str::slug('Halaman ' . $title) }}@endsection
 
 @php
     $includejs = 'crud';

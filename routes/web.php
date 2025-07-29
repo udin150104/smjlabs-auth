@@ -11,6 +11,7 @@ use Smjlabs\Core\Http\Controllers\RolesController;
 use Smjlabs\Core\Http\Controllers\UsersController;
 use Smjlabs\Core\Http\Controllers\ProfileController;
 use Smjlabs\Core\Http\Controllers\DashboardController;
+use Smjlabs\Core\Http\Controllers\InformasiController;
 use Smjlabs\Core\Http\Controllers\IzinAksesController;
 use Smjlabs\Core\Http\Middleware\ContentSecurityPolicy;
 use Smjlabs\Core\Http\Controllers\LogsActivityController;
@@ -61,7 +62,7 @@ Route::group([
             IsAuthenticated::class
         ]
     ], function () {
-        Route::post('logout', [LoginController::class,'logout'])->name('logout');
+        Route::post('logout', [LoginController::class, 'logout'])->name('logout');
     });
 });
 
@@ -76,13 +77,14 @@ Route::group([
     ]
 ], function () {
     Route::resource('dashboard', DashboardController::class)->only(['index']);
-    Route::resource('profile', ProfileController::class)->only(['index','edit','update']);
-    Route::middleware(['perms:User:set-permission'])->get('users/{user}/set-permissions', [UsersController::class,'setpermission'])->name('users.set-permission');
-    Route::middleware(['perms:User:set-permission'])->post('users/{user}/set-permissions', [UsersController::class,'setpermissionprocess'])->name('users.set-permission-process');
+    Route::resource('profile', ProfileController::class)->only(['index', 'edit', 'update']);
+    Route::middleware(['perms:User:set-permission'])->get('users/{user}/set-permissions', [UsersController::class, 'setpermission'])->name('users.set-permission');
+    Route::middleware(['perms:User:set-permission'])->post('users/{user}/set-permissions', [UsersController::class, 'setpermissionprocess'])->name('users.set-permission-process');
     Route::resource('users', UsersController::class)->except(['show']);
     Route::resource('roles', RolesController::class)->except(['show']);
-    Route::resource('izin-akses', IzinAksesController::class)->only(['index','store']);
-    Route::resource('logactivity',LogsActivityController::class)->only(['index','show']);
+    Route::resource('izin-akses', IzinAksesController::class)->only(['index', 'store']);
+    Route::resource('logactivity', LogsActivityController::class)->only(['index', 'show']);
+    Route::resource('informasi', InformasiController::class)->only(['index']);
 });
 
 // ==== API pendukung ==== //
@@ -98,4 +100,5 @@ Route::group([
     Route::get('users', [UsersController::class, 'searchUsers']);
     Route::get('role', [RolesController::class, 'searchRoles']);
     Route::get('logactivity', [LogsActivityController::class, 'searchType']);
+    Route::get('informasi', [InformasiController::class, 'status']);
 });

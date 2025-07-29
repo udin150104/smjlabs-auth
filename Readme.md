@@ -11,18 +11,6 @@
 **Smjlabs Core** adalah package kerangka kerja core awal untuk menunjang kerja menggunakan laravel.
 
 
-### ✨ Fitur Utama
-
-- Halaman **Login** sederhana
-- Panel Admin minimalis:
-  - Dashboard
-  - Konfigurasi:
-    - Manajemen User
-    - Izin Akses (Permissions)
-- Halaman **Profil** pengguna
-- Fungsi **Logout**
-
-
 ### 📦 Instalasi
 
 Tambahkan repository ke `composer.json` proyek Laravel Anda:

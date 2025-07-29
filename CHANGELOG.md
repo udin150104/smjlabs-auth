@@ -16,4 +16,6 @@
   - penambahan modules
   - perbaikan middleware
   - perbaikan scripts
-  
+
+### 2025-07-30
+  - add fitur monitor
