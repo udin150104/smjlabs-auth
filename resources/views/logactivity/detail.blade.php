@@ -37,6 +37,9 @@
                     <div class="align-middle text-lg-start text-sm-end text-muted w-100">
                         {{ $logactivity->created_at->format('d/m/Y H:i:s') }} </div>
                 </div>
+                <div class="mb-2 ">
+                    <div class="align-middle text-lg-start text-sm-end text-muted w-100"> {{ $logactivity->ip_address }} {{ $logactivity->user_agent }}</div>
+                </div>
                 <div class="mb-2 row">
                     <div class="col-sm-12 col-md-12 col-lg-12 align-middle ">
                         @if ($logactivity->users)
@@ -81,7 +84,7 @@
                 @if ($logactivity->event == 'page_visited')
                     <div class="mb-2 row">
                         <div class="col-sm-12 col-md-12 col-lg-12 align-middle">
-                          <pre class="bg-dark text-white p-2"><code> [{{ ucwords(str_replace('_', ' ', $logactivity->event)) }}] {{ $logactivity->description }} </code> </pre>
+                            <pre class="bg-dark text-white p-2"><code> [{{ ucwords(str_replace('_', ' ', $logactivity->event)) }}] {{ $logactivity->description }} </code> </pre>
                         </div>
                     </div>
                 @endif
